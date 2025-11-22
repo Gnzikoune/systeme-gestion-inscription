@@ -13,7 +13,7 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "CSGR-IA-Inscription",
-  description: "Created with v0",
+  description: "Système de gestion d'inscription centralisé du CSGR-IA",
   generator: "v0.app",
   icons: {
     icon: [
