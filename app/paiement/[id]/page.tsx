@@ -1,34 +1,60 @@
 "use client"
 
-import { useState, useEffect, use } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, useParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Button } from "@/components/ui/button"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { getProgramById } from "@/lib/data/programs"
+import { getProgramByIdFromStorage } from "@/lib/storage/programs-storage"
+import type { Program } from "@/lib/data/programs"
 import { ArrowLeft, CreditCard, Loader2, CheckCircle } from "lucide-react"
 
-export default function PaiementPage({ params }: { params: Promise<{ id: string }> | { id: string } }) {
+export default function PaiementPage() {
   const router = useRouter()
-  // Déballer les params (Promise ou objet direct) avec React.use()
-  const resolvedParams = use(params instanceof Promise ? params : Promise.resolve(params))
-  const program = getProgramById(resolvedParams.id)
+  const params = useParams()
+  const [program, setProgram] = useState<Program | null>(null)
   const [loading, setLoading] = useState(false)
   const [paymentMethod, setPaymentMethod] = useState("singpay")
   const [inscriptionData, setInscriptionData] = useState<any>(null)
 
   useEffect(() => {
+    const id = params?.id as string
+    if (id) {
+      const loadedProgram = getProgramByIdFromStorage(id)
+      setProgram(loadedProgram || null)
+    }
+    
     const data = sessionStorage.getItem("inscription")
     if (data) {
       setInscriptionData(JSON.parse(data))
     }
-  }, [])
+  }, [params])
 
-  if (!program || program.gratuit) {
+  if (!program) {
+    return (
+      <div className="flex min-h-screen flex-col">
+        <Header />
+        <main className="flex flex-1 items-center justify-center">
+          <Card className="max-w-md">
+            <CardContent className="pt-6 text-center">
+              <p className="text-muted-foreground">Programme non trouvé</p>
+              <Button asChild className="mt-4">
+                <Link href="/">Retour à l'accueil</Link>
+              </Button>
+            </CardContent>
+          </Card>
+        </main>
+        <Footer />
+      </div>
+    )
+  }
+
+  if (program.gratuit) {
     return null
   }
 
@@ -66,8 +92,8 @@ export default function PaiementPage({ params }: { params: Promise<{ id: string 
               <div className="lg:col-span-2">
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-balance text-lg sm:text-xl">Paiement de l'inscription</CardTitle>
-                    <CardDescription className="text-sm">Choisissez votre méthode de paiement</CardDescription>
+                    <CardTitle className="text-balance text-lg sm:text-xl md:text-2xl">Paiement de l'inscription</CardTitle>
+                    <CardDescription className="text-xs sm:text-sm md:text-base">Choisissez votre méthode de paiement</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod}>
@@ -76,8 +102,8 @@ export default function PaiementPage({ params }: { params: Promise<{ id: string 
                         <Label htmlFor="singpay" className="flex flex-1 cursor-pointer items-center gap-2 sm:gap-3">
                           <CreditCard className="h-4 w-4 shrink-0 text-primary sm:h-5 sm:w-5" />
                           <div>
-                            <div className="text-sm font-medium sm:text-base">SingPay</div>
-                            <div className="text-xs text-muted-foreground sm:text-sm">Paiement mobile sécurisé</div>
+                            <div className="text-xs sm:text-sm md:text-base font-medium">SingPay</div>
+                            <div className="text-xs sm:text-sm text-muted-foreground">Paiement mobile sécurisé</div>
                           </div>
                         </Label>
                       </div>
@@ -87,8 +113,8 @@ export default function PaiementPage({ params }: { params: Promise<{ id: string 
                         <Label htmlFor="flutterwave" className="flex flex-1 cursor-pointer items-center gap-2 sm:gap-3">
                           <CreditCard className="h-4 w-4 shrink-0 text-accent sm:h-5 sm:w-5" />
                           <div>
-                            <div className="text-sm font-medium sm:text-base">Flutterwave</div>
-                            <div className="text-xs text-muted-foreground sm:text-sm">Carte bancaire, Mobile Money</div>
+                            <div className="text-xs sm:text-sm md:text-base font-medium">Flutterwave</div>
+                            <div className="text-xs sm:text-sm text-muted-foreground">Carte bancaire, Mobile Money</div>
                           </div>
                         </Label>
                       </div>
@@ -98,8 +124,8 @@ export default function PaiementPage({ params }: { params: Promise<{ id: string 
                         <Label htmlFor="paydunya" className="flex flex-1 cursor-pointer items-center gap-2 sm:gap-3">
                           <CreditCard className="h-4 w-4 shrink-0 text-secondary sm:h-5 sm:w-5" />
                           <div>
-                            <div className="text-sm font-medium sm:text-base">PayDunya</div>
-                            <div className="text-xs text-muted-foreground sm:text-sm">
+                            <div className="text-xs sm:text-sm md:text-base font-medium">PayDunya</div>
+                            <div className="text-xs sm:text-sm text-muted-foreground">
                               Orange Money, MTN Mobile Money
                             </div>
                           </div>
@@ -125,8 +151,8 @@ export default function PaiementPage({ params }: { params: Promise<{ id: string 
                       <div className="flex items-start gap-2 sm:gap-3">
                         <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-primary sm:h-5 sm:w-5" />
                         <div className="space-y-1">
-                          <p className="text-xs font-medium text-foreground sm:text-sm">Paiement sécurisé</p>
-                          <p className="text-xs leading-relaxed text-muted-foreground">
+                          <p className="text-xs sm:text-sm md:text-base font-medium text-foreground">Paiement sécurisé</p>
+                          <p className="text-xs sm:text-sm leading-relaxed text-muted-foreground">
                             Toutes les transactions sont sécurisées et cryptées. Vos informations bancaires ne sont
                             jamais stockées.
                           </p>
@@ -141,34 +167,34 @@ export default function PaiementPage({ params }: { params: Promise<{ id: string 
               <div>
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-lg sm:text-xl">Récapitulatif</CardTitle>
+                    <CardTitle className="text-base sm:text-lg md:text-xl">Récapitulatif</CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-4">
+                  <CardContent className="space-y-3 sm:space-y-4">
                     {inscriptionData && (
                       <>
-                        <div className="space-y-2 border-b border-border pb-4">
-                          <div className="text-sm font-medium text-foreground">Participant</div>
-                          <div className="text-sm text-muted-foreground">
+                        <div className="space-y-1.5 sm:space-y-2 border-b border-border pb-3 sm:pb-4">
+                          <div className="text-xs sm:text-sm md:text-base font-medium text-foreground">Participant</div>
+                          <div className="text-xs sm:text-sm md:text-base text-muted-foreground">
                             {inscriptionData.prenom} {inscriptionData.nom}
                           </div>
-                          <div className="break-words text-xs text-muted-foreground">{inscriptionData.email}</div>
+                          <div className="break-words text-xs sm:text-sm text-muted-foreground">{inscriptionData.email}</div>
                         </div>
                       </>
                     )}
 
-                    <div className="space-y-2 border-b border-border pb-4">
-                      <div className="text-sm font-medium text-foreground">Programme</div>
-                      <div className="break-words text-sm text-muted-foreground">{program.nom}</div>
+                    <div className="space-y-1.5 sm:space-y-2 border-b border-border pb-3 sm:pb-4">
+                      <div className="text-xs sm:text-sm md:text-base font-medium text-foreground">Programme</div>
+                      <div className="break-words text-xs sm:text-sm md:text-base text-muted-foreground">{program.nom}</div>
                     </div>
 
                     <div className="space-y-2">
-                      <div className="flex items-center justify-between text-sm">
+                      <div className="flex items-center justify-between text-xs sm:text-sm md:text-base">
                         <span className="text-muted-foreground">Sous-total</span>
                         <span className="text-foreground">{program.prix.toLocaleString()} FCFA</span>
                       </div>
                       <div className="flex items-center justify-between border-t border-border pt-2">
-                        <span className="font-semibold text-foreground">Total</span>
-                        <span className="text-lg font-bold text-foreground sm:text-xl">
+                        <span className="text-sm sm:text-base md:text-lg font-semibold text-foreground">Total</span>
+                        <span className="text-base sm:text-lg md:text-xl font-bold text-foreground">
                           {program.prix.toLocaleString()} FCFA
                         </span>
                       </div>

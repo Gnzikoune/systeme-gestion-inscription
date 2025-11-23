@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { formatPaymentStatus, getPaymentStatusColor, type Registration } from "@/lib/data/registrations"
-import { programs } from "@/lib/data/programs"
+import { getProgramsFromStorage } from "@/lib/storage/programs-storage"
+import type { Program } from "@/lib/data/programs"
 import { Eye, Users, CheckCircle2, Clock, XCircle, Trash2 } from "lucide-react"
 import { AdminFilters } from "@/components/admin/admin-filters"
 import { ExportButton } from "@/components/admin/export-button"
@@ -16,11 +17,14 @@ import { useToast } from "@/hooks/use-toast"
 
 export default function AdminDashboardPage() {
   const [registrations, setRegistrations] = useState<Registration[]>([])
+  const [programs, setPrograms] = useState<Program[]>([])
   const [loading, setLoading] = useState(true)
   const { toast } = useToast()
 
   useEffect(() => {
     loadRegistrations()
+    // Load programs only on client side
+    setPrograms(getProgramsFromStorage())
   }, [])
 
   const loadRegistrations = () => {

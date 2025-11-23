@@ -8,19 +8,51 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { programs } from "@/lib/data/programs"
-import { Calendar, Clock, ArrowRight, Users, BookOpen, Award, Globe, CalendarDays, Newspaper } from "lucide-react"
+import { getProgramsFromStorage } from "@/lib/storage/programs-storage"
+import { Calendar, Clock, ArrowRight, Users, BookOpen, Award, Globe, CalendarDays, Newspaper, GraduationCap, Building, TrendingUp, Target } from "lucide-react"
 import { useEffect, useState } from "react"
 import { getNewsFromStorage } from "@/lib/storage/news-storage"
+import { getStatsFromStorage } from "@/lib/storage/stats-storage"
 import type { News } from "@/lib/data/news"
+import type { Stat } from "@/lib/data/stats"
+import type { Program } from "@/lib/data/programs"
+
+const iconMap = {
+  BookOpen,
+  Users,
+  Award,
+  Globe,
+  GraduationCap,
+  Building,
+  TrendingUp,
+  Target,
+}
+
+const colorMap = {
+  primary: "text-primary",
+  accent: "text-accent",
+  secondary: "text-secondary",
+  default: "text-foreground",
+}
 
 export default function HomePage() {
   const [news, setNews] = useState<News[]>([])
+  const [stats, setStats] = useState<Stat[]>([])
+  const [programs, setPrograms] = useState<Program[]>([])
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
     const loadedNews = getNewsFromStorage()
     const activeNews = loadedNews.filter((n) => n.actif).sort((a, b) => a.ordre - b.ordre)
     setNews(activeNews)
+
+    const loadedStats = getStatsFromStorage()
+    const activeStats = loadedStats.filter((s) => s.actif).sort((a, b) => a.ordre - b.ordre)
+    setStats(activeStats)
+
+    const loadedPrograms = getProgramsFromStorage()
+    setPrograms(loadedPrograms)
   }, [])
 
   const actualites = news.filter((n) => n.type === "actualite")
@@ -33,17 +65,17 @@ export default function HomePage() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-primary via-accent to-secondary py-20 text-primary-foreground">
+        <section className="relative overflow-hidden bg-gradient-to-br from-primary via-accent to-secondary py-12 sm:py-16 md:py-20 text-primary-foreground">
           <div className="absolute inset-0 bg-[url('/abstract-circuit-pattern.png')] opacity-10" />
           <div className="container relative mx-auto px-4">
             <div className="mx-auto max-w-4xl text-center">
               <Badge className="mb-4 bg-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/30">
                 Innovation · Recherche · Excellence
               </Badge>
-              <h1 className="mb-6 text-balance text-4xl font-bold leading-tight sm:text-5xl md:text-6xl">
+              <h1 className="mb-4 sm:mb-6 text-balance text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight">
                 Comité Scientifique Gabonais de Recherche sur l'Intelligence Artificielle
               </h1>
-              <p className="mb-8 text-pretty text-lg text-primary-foreground/90 leading-relaxed sm:text-xl">
+              <p className="mb-6 sm:mb-8 text-pretty text-sm sm:text-base md:text-lg lg:text-xl text-primary-foreground/90 leading-relaxed">
                 Structurer, vulgariser et promouvoir la recherche en IA au Gabon pour accélérer le développement
                 numérique et scientifique du pays
               </p>
@@ -70,78 +102,60 @@ export default function HomePage() {
         {/* Stats Section */}
         <section className="border-b border-border bg-muted/30 py-8 sm:py-12">
           <div className="container mx-auto px-4">
-            {/* Mobile & Tablet: Horizontal Scroll */}
-            <div className="flex gap-6 overflow-x-auto pb-4 lg:hidden snap-x snap-mandatory">
-              <div className="text-center min-w-[200px] sm:min-w-[220px] flex-shrink-0 snap-start">
-                <div className="mb-2 flex justify-center">
-                  <BookOpen className="h-8 w-8 text-primary" />
-                </div>
-                <div className="text-3xl font-bold text-foreground">138</div>
-                <div className="text-sm text-muted-foreground">Publications en IA</div>
+            {!mounted || stats.length === 0 ? (
+              <div className="text-center py-8">
+                <p className="text-sm text-muted-foreground">
+                  {!mounted ? "Chargement..." : "Aucune statistique disponible"}
+                </p>
               </div>
-              <div className="text-center min-w-[200px] sm:min-w-[220px] flex-shrink-0 snap-start">
-                <div className="mb-2 flex justify-center">
-                  <Users className="h-8 w-8 text-accent" />
+            ) : (
+              <>
+                {/* Mobile & Tablet: Horizontal Scroll */}
+                <div className="flex gap-4 sm:gap-6 overflow-x-auto pb-4 lg:hidden snap-x snap-mandatory">
+                  {stats.map((stat) => {
+                    const Icon = iconMap[stat.icon as keyof typeof iconMap]
+                    const colorClass = colorMap[stat.color as keyof typeof colorMap] || colorMap.default
+                    if (!Icon) return null
+                    return (
+                      <div key={stat.id} className="text-center min-w-[160px] sm:min-w-[200px] md:min-w-[220px] flex-shrink-0 snap-start">
+                        <div className="mb-1.5 sm:mb-2 flex justify-center">
+                          <Icon className={`h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 ${colorClass}`} />
+                        </div>
+                        <div className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground">{stat.value}</div>
+                        <div className="text-xs sm:text-sm text-muted-foreground">{stat.label}</div>
+                      </div>
+                    )
+                  })}
                 </div>
-                <div className="text-3xl font-bold text-foreground">17</div>
-                <div className="text-sm text-muted-foreground">Centres UIT mondiaux</div>
-              </div>
-              <div className="text-center min-w-[200px] sm:min-w-[220px] flex-shrink-0 snap-start">
-                <div className="mb-2 flex justify-center">
-                  <Award className="h-8 w-8 text-secondary" />
+                {/* Desktop: Grid Layout */}
+                <div className={`hidden lg:grid lg:gap-8 ${stats.length === 1 ? 'lg:grid-cols-1' : stats.length === 2 ? 'lg:grid-cols-2' : stats.length === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-4'}`}>
+                  {stats.map((stat) => {
+                    const Icon = iconMap[stat.icon as keyof typeof iconMap]
+                    const colorClass = colorMap[stat.color as keyof typeof colorMap] || colorMap.default
+                    if (!Icon) return null
+                    return (
+                      <div key={stat.id} className="text-center">
+                        <div className="mb-2 flex justify-center">
+                          <Icon className={`h-8 w-8 ${colorClass}`} />
+                        </div>
+                        <div className="text-3xl font-bold text-foreground">{stat.value}</div>
+                        <div className="text-sm text-muted-foreground">{stat.label}</div>
+                      </div>
+                    )
+                  })}
                 </div>
-                <div className="text-3xl font-bold text-foreground">90%</div>
-                <div className="text-sm text-muted-foreground">Couverture 3G/4G</div>
-              </div>
-              <div className="text-center min-w-[200px] sm:min-w-[220px] flex-shrink-0 snap-start">
-                <div className="mb-2 flex justify-center">
-                  <Globe className="h-8 w-8 text-primary" />
-                </div>
-                <div className="text-3xl font-bold text-foreground">UNESCO</div>
-                <div className="text-sm text-muted-foreground">Partenaire officiel</div>
-              </div>
-            </div>
-            {/* Desktop: Grid Layout */}
-            <div className="hidden lg:grid lg:grid-cols-4 lg:gap-8">
-              <div className="text-center">
-                <div className="mb-2 flex justify-center">
-                  <BookOpen className="h-8 w-8 text-primary" />
-                </div>
-                <div className="text-3xl font-bold text-foreground">138</div>
-                <div className="text-sm text-muted-foreground">Publications en IA</div>
-              </div>
-              <div className="text-center">
-                <div className="mb-2 flex justify-center">
-                  <Users className="h-8 w-8 text-accent" />
-                </div>
-                <div className="text-3xl font-bold text-foreground">17</div>
-                <div className="text-sm text-muted-foreground">Centres UIT mondiaux</div>
-              </div>
-              <div className="text-center">
-                <div className="mb-2 flex justify-center">
-                  <Award className="h-8 w-8 text-secondary" />
-                </div>
-                <div className="text-3xl font-bold text-foreground">90%</div>
-                <div className="text-sm text-muted-foreground">Couverture 3G/4G</div>
-              </div>
-              <div className="text-center">
-                <div className="mb-2 flex justify-center">
-                  <Globe className="h-8 w-8 text-primary" />
-                </div>
-                <div className="text-3xl font-bold text-foreground">UNESCO</div>
-                <div className="text-sm text-muted-foreground">Partenaire officiel</div>
-              </div>
-            </div>
+              </>
+            )}
           </div>
         </section>
 
         {/* About Section */}
-        <section id="a-propos" className="py-20">
+        <section id="a-propos" className="py-12 sm:py-16 md:py-20">
           <div className="container mx-auto px-4">
             <div className="mx-auto max-w-4xl">
-              <div className="mb-12 text-center">
-                <h2 className="mb-4 text-balance text-3xl font-bold text-foreground sm:text-4xl">Notre Mission</h2>
-                <p className="text-pretty text-lg text-muted-foreground leading-relaxed">
+              <div className="mb-8 sm:mb-10 md:mb-12 text-center">
+                <h2 className="mb-3 sm:mb-4 text-balance text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">Notre Mission</h2>
+                <p className="text-pretty text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
                   Le CSGR-IA est au cœur des initiatives de structuration, vulgarisation et promotion de la recherche en
                   IA au Gabon
                 </p>
@@ -150,10 +164,10 @@ export default function HomePage() {
               <div className="grid gap-8 md:grid-cols-2">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Structuration & Encadrement</CardTitle>
+                    <CardTitle className="text-base sm:text-lg md:text-xl">Structuration & Encadrement</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
+                    <p className="text-xs sm:text-sm md:text-base text-muted-foreground leading-relaxed">
                       Structurer et encadrer la recherche scientifique et technologique en IA au Gabon en mobilisant
                       ministères, universités et partenaires internationaux.
                     </p>
@@ -162,10 +176,10 @@ export default function HomePage() {
 
                 <Card>
                   <CardHeader>
-                    <CardTitle>Innovation & Éthique</CardTitle>
+                    <CardTitle className="text-base sm:text-lg md:text-xl">Innovation & Éthique</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
+                    <p className="text-xs sm:text-sm md:text-base text-muted-foreground leading-relaxed">
                       Promouvoir l'innovation et l'usage éthique de l'IA selon les standards de l'UNESCO et de l'Union
                       internationale des télécommunications.
                     </p>
@@ -174,10 +188,10 @@ export default function HomePage() {
 
                 <Card>
                   <CardHeader>
-                    <CardTitle>Inclusion & Formation</CardTitle>
+                    <CardTitle className="text-base sm:text-lg md:text-xl">Inclusion & Formation</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
+                    <p className="text-xs sm:text-sm md:text-base text-muted-foreground leading-relaxed">
                       Favoriser l'inclusion, la formation et l'employabilité par le numérique et l'IA dans les secteurs
                       santé, éducation, industrie et culture.
                     </p>
@@ -186,10 +200,10 @@ export default function HomePage() {
 
                 <Card>
                   <CardHeader>
-                    <CardTitle>Collaboration Internationale</CardTitle>
+                    <CardTitle className="text-base sm:text-lg md:text-xl">Collaboration Internationale</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
+                    <p className="text-xs sm:text-sm md:text-base text-muted-foreground leading-relaxed">
                       Collaboration étroite avec le Centre Gabonais de l'Innovation (CGI), classé parmi les 17 centres
                       UIT mondiaux pour l'accélération en IA.
                     </p>
@@ -201,13 +215,13 @@ export default function HomePage() {
         </section>
 
         {/* Programs Section */}
-        <section id="programmes" className="bg-muted/30 py-20">
+        <section id="programmes" className="bg-muted/30 py-12 sm:py-16 md:py-20">
           <div className="container mx-auto px-4">
-            <div className="mb-12 text-center">
-              <h2 className="mb-4 text-balance text-3xl font-bold text-foreground sm:text-4xl">
+            <div className="mb-8 sm:mb-10 md:mb-12 text-center">
+              <h2 className="mb-3 sm:mb-4 text-balance text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">
                 Nos Programmes de Formation
               </h2>
-              <p className="text-pretty text-lg text-muted-foreground leading-relaxed">
+              <p className="text-pretty text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
                 Découvrez nos programmes de formation et recherche en Intelligence Artificielle
               </p>
             </div>
@@ -230,8 +244,8 @@ export default function HomePage() {
                         {program.duree}
                       </div>
                     </div>
-                    <CardTitle className="text-balance leading-tight">{program.nom}</CardTitle>
-                    <CardDescription className="text-pretty leading-relaxed">
+                    <CardTitle className="text-base sm:text-lg md:text-xl text-balance leading-tight">{program.nom}</CardTitle>
+                    <CardDescription className="text-xs sm:text-sm md:text-base text-pretty leading-relaxed">
                       {program.description_courte}
                     </CardDescription>
                   </CardHeader>
@@ -256,12 +270,12 @@ export default function HomePage() {
         </section>
 
         {/* Actualités Section */}
-        <section id="actualites" className="bg-gradient-to-br from-muted/30 to-muted/50 py-20">
+        <section id="actualites" className="bg-gradient-to-br from-muted/30 to-muted/50 py-12 sm:py-16 md:py-20">
           <div className="container mx-auto px-4">
-            <div className="mb-12 text-center">
-              <Badge className="mb-4 bg-primary/10 text-primary hover:bg-primary/20">Actualités & Événements</Badge>
-              <h2 className="mb-4 text-balance text-3xl font-bold text-foreground sm:text-4xl">Actualités 2025</h2>
-              <p className="text-pretty text-lg text-muted-foreground leading-relaxed">
+            <div className="mb-8 sm:mb-10 md:mb-12 text-center">
+              <Badge className="mb-3 sm:mb-4 text-xs sm:text-sm bg-primary/10 text-primary hover:bg-primary/20">Actualités & Événements</Badge>
+              <h2 className="mb-3 sm:mb-4 text-balance text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">Actualités 2025</h2>
+              <p className="text-pretty text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
                 Restez informé de nos dernières actualités et événements à venir
               </p>
             </div>
@@ -318,12 +332,12 @@ export default function HomePage() {
                             <Calendar className="h-3 w-3" />
                             {item.date} · {item.lieu}
                           </div>
-                          <CardTitle className="text-balance text-lg leading-tight line-clamp-2">
+                          <CardTitle className="text-base sm:text-lg md:text-xl text-balance leading-tight line-clamp-2">
                             {item.titre}
                           </CardTitle>
                         </CardHeader>
                         <CardContent>
-                          <p className="text-sm leading-relaxed text-muted-foreground line-clamp-3">
+                          <p className="text-xs sm:text-sm md:text-base leading-relaxed text-muted-foreground line-clamp-3">
                             {item.description}
                           </p>
                         </CardContent>
@@ -373,8 +387,8 @@ export default function HomePage() {
                                   Événement
                                 </Badge>
                               </div>
-                              <CardTitle className="text-balance leading-tight">{item.titre}</CardTitle>
-                              <CardDescription className="flex items-center gap-2">
+                              <CardTitle className="text-base sm:text-lg md:text-xl text-balance leading-tight">{item.titre}</CardTitle>
+                              <CardDescription className="text-xs sm:text-sm md:text-base flex items-center gap-2">
                                 <Calendar className="h-3 w-3" />
                                 {item.date} · {item.lieu}
                               </CardDescription>
@@ -431,8 +445,8 @@ export default function HomePage() {
                                 <Calendar className="h-3 w-3" />
                                 {item.date} · {item.lieu}
                               </div>
-                              <h3 className="mb-2 text-balance text-lg font-semibold leading-tight">{item.titre}</h3>
-                              <p className="text-sm text-muted-foreground line-clamp-2">{item.description}</p>
+                              <h3 className="mb-2 text-base sm:text-lg md:text-xl text-balance font-semibold leading-tight">{item.titre}</h3>
+                              <p className="text-xs sm:text-sm md:text-base text-muted-foreground line-clamp-2">{item.description}</p>
                             </div>
                             <Button
                               asChild

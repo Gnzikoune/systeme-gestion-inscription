@@ -1,9 +1,9 @@
 "use client"
 
 import type React from "react"
-import { useState, use } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, useParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -12,16 +12,24 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { getProgramById } from "@/lib/data/programs"
+import { getProgramByIdFromStorage } from "@/lib/storage/programs-storage"
+import type { Program } from "@/lib/data/programs"
 import { ArrowLeft, Loader2 } from "lucide-react"
 import { addRegistration, generateRegistrationNumber, generateRegistrationId } from "@/lib/storage/local-storage"
 
-export default function InscriptionPage({ params }: { params: Promise<{ id: string }> | { id: string } }) {
+export default function InscriptionPage() {
   const router = useRouter()
-  // Déballer les params (Promise ou objet direct) avec React.use()
-  const resolvedParams = use(params instanceof Promise ? params : Promise.resolve(params))
-  const program = getProgramById(resolvedParams.id)
+  const params = useParams()
+  const [program, setProgram] = useState<Program | null>(null)
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    const id = params?.id as string
+    if (id) {
+      const loadedProgram = getProgramByIdFromStorage(id)
+      setProgram(loadedProgram || null)
+    }
+  }, [params])
   const [formData, setFormData] = useState({
     nom: "",
     prenom: "",
@@ -34,7 +42,22 @@ export default function InscriptionPage({ params }: { params: Promise<{ id: stri
   })
 
   if (!program) {
-    return null
+    return (
+      <div className="flex min-h-screen flex-col">
+        <Header />
+        <main className="flex flex-1 items-center justify-center">
+          <Card className="max-w-md">
+            <CardContent className="pt-6 text-center">
+              <p className="text-muted-foreground">Programme non trouvé</p>
+              <Button asChild className="mt-4">
+                <Link href="/">Retour à l'accueil</Link>
+              </Button>
+            </CardContent>
+          </Card>
+        </main>
+        <Footer />
+      </div>
+    )
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -116,8 +139,8 @@ export default function InscriptionPage({ params }: { params: Promise<{ id: stri
 
             <Card>
               <CardHeader>
-                <CardTitle className="text-balance text-xl sm:text-2xl">Inscription au programme</CardTitle>
-                <CardDescription className="text-pretty text-sm sm:text-base">{program.nom}</CardDescription>
+                <CardTitle className="text-balance text-lg sm:text-xl md:text-2xl">Inscription au programme</CardTitle>
+                <CardDescription className="text-pretty text-xs sm:text-sm md:text-base">{program.nom}</CardDescription>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
@@ -231,14 +254,14 @@ export default function InscriptionPage({ params }: { params: Promise<{ id: stri
                     />
                   </div>
 
-                  <div className="rounded-lg border border-border bg-muted/50 p-4">
+                  <div className="rounded-lg border border-border bg-muted/50 p-3 sm:p-4">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-foreground">Programme sélectionné</span>
-                      <span className="text-sm text-muted-foreground">{program.nom}</span>
+                      <span className="text-xs sm:text-sm md:text-base font-medium text-foreground">Programme sélectionné</span>
+                      <span className="text-xs sm:text-sm md:text-base text-muted-foreground">{program.nom}</span>
                     </div>
                     <div className="mt-2 flex items-center justify-between border-t border-border pt-2">
-                      <span className="text-sm font-medium text-foreground">Montant</span>
-                      <span className="text-lg font-bold text-foreground">
+                      <span className="text-xs sm:text-sm md:text-base font-medium text-foreground">Montant</span>
+                      <span className="text-base sm:text-lg md:text-xl font-bold text-foreground">
                         {program.gratuit ? "Gratuit" : `${program.prix.toLocaleString()} FCFA`}
                       </span>
                     </div>

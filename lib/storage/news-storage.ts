@@ -3,7 +3,8 @@ import { type News, defaultNews } from "@/lib/data/news"
 const NEWS_STORAGE_KEY = "csgr_ia_news"
 
 export function getNewsFromStorage(): News[] {
-  if (typeof window === "undefined") return defaultNews
+  // Always return empty array on server to avoid hydration mismatch
+  if (typeof window === "undefined") return []
 
   try {
     const stored = localStorage.getItem(NEWS_STORAGE_KEY)

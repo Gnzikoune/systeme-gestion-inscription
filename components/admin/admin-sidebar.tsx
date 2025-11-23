@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Users, Newspaper, Settings, LayoutDashboard } from "lucide-react"
+import { Users, Newspaper, Settings, LayoutDashboard, GraduationCap, BarChart3 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 
@@ -13,9 +13,19 @@ const sidebarLinks = [
     icon: Users,
   },
   {
+    href: "/admin/programmes",
+    label: "Programmes",
+    icon: GraduationCap,
+  },
+  {
     href: "/admin/actualites",
     label: "Actualités",
     icon: Newspaper,
+  },
+  {
+    href: "/admin/statistiques",
+    label: "Statistiques",
+    icon: BarChart3,
   },
   {
     href: "/admin/parametres",

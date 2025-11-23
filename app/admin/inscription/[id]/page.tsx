@@ -1,8 +1,8 @@
 "use client"
 
-import { useEffect, useState, use } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
-import { notFound, useRouter } from "next/navigation"
+import { notFound, useRouter, useParams } from "next/navigation"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
@@ -23,27 +23,30 @@ import { EditRegistrationDialog } from "@/components/admin/edit-registration-dia
 import { DeleteRegistrationDialog } from "@/components/admin/delete-registration-dialog"
 import { useToast } from "@/hooks/use-toast"
 
-export default function RegistrationDetailPage({ params }: { params: Promise<{ id: string }> | { id: string } }) {
+export default function RegistrationDetailPage() {
+  const params = useParams()
   const [registration, setRegistration] = useState<Registration | null>(null)
   const [loading, setLoading] = useState(true)
   const router = useRouter()
   const { toast } = useToast()
-  
-  // Déballer les params (Promise ou objet direct) avec React.use()
-  const resolvedParams = use(params instanceof Promise ? params : Promise.resolve(params))
 
   const loadRegistration = () => {
-    const reg = getRegistrationById(resolvedParams.id)
-    setRegistration(reg || null)
-    setLoading(false)
+    const id = params?.id as string
+    if (id) {
+      const reg = getRegistrationById(id)
+      setRegistration(reg || null)
+      setLoading(false)
+    }
   }
 
   useEffect(() => {
     loadRegistration()
-  }, [resolvedParams.id])
+  }, [params])
 
   const handleStatusUpdate = (newStatus: "en_attente" | "valide" | "echoue" | "rembourse") => {
-    const success = updatePaymentStatus(resolvedParams.id, newStatus)
+    const id = params?.id as string
+    if (!id) return
+    const success = updatePaymentStatus(id, newStatus)
     if (success) {
       toast({
         title: "Statut mis à jour",
@@ -60,7 +63,9 @@ export default function RegistrationDetailPage({ params }: { params: Promise<{ i
   }
 
   const handleRegistrationUpdate = (updates: Partial<Registration>) => {
-    updateRegistration(resolvedParams.id, updates)
+    const id = params?.id as string
+    if (!id) return
+    updateRegistration(id, updates)
     toast({
       title: "Informations mises à jour",
       description: "Les informations de l'inscrit ont été modifiées avec succès.",
@@ -69,7 +74,9 @@ export default function RegistrationDetailPage({ params }: { params: Promise<{ i
   }
 
   const handleDelete = () => {
-    const success = deleteRegistration(resolvedParams.id)
+    const id = params?.id as string
+    if (!id) return
+    const success = deleteRegistration(id)
     if (success) {
       toast({
         title: "Inscription supprimée",

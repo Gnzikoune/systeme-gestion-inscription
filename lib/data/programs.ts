@@ -12,6 +12,8 @@ export interface Program {
   date_fin: string
   duree: string
   image: string
+  ordre?: number
+  actif?: boolean
 }
 
 export const programs: Program[] = [
