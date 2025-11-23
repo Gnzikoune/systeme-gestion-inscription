@@ -38,10 +38,10 @@ export function StatusUpdateDialog({ registrationId, currentStatus, onStatusUpda
           Modifier le statut
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="w-[95vw] sm:max-w-[425px] sm:w-full">
         <DialogHeader>
-          <DialogTitle>Modifier le statut de paiement</DialogTitle>
-          <DialogDescription>Changez le statut de paiement pour cette inscription.</DialogDescription>
+          <DialogTitle className="text-base sm:text-lg">Modifier le statut de paiement</DialogTitle>
+          <DialogDescription className="text-xs sm:text-sm">Changez le statut de paiement pour cette inscription.</DialogDescription>
         </DialogHeader>
         <div className="py-4">
           <Select value={selectedStatus} onValueChange={(value: any) => setSelectedStatus(value)}>

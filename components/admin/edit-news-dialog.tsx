@@ -71,10 +71,10 @@ export function EditNewsDialog({ news, open, onOpenChange, onSuccess }: EditNews
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
+      <DialogContent className="max-h-[90vh] w-[95vw] max-w-2xl overflow-y-auto sm:w-full">
         <DialogHeader>
-          <DialogTitle>Modifier l'Actualité</DialogTitle>
-          <DialogDescription>Modifiez les informations de cette actualité.</DialogDescription>
+          <DialogTitle className="text-base sm:text-lg">Modifier l'Actualité</DialogTitle>
+          <DialogDescription className="text-xs sm:text-sm">Modifiez les informations de cette actualité.</DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="space-y-4">

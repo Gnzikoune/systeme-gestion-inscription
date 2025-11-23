@@ -36,13 +36,13 @@ export function DeleteNewsDialog({ news, open, onOpenChange, onSuccess }: Delete
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className="w-[95vw] sm:max-w-[425px] sm:w-full">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5 text-destructive" />
+          <DialogTitle className="flex items-center gap-2 text-base sm:text-lg">
+            <AlertTriangle className="h-4 w-4 sm:h-5 sm:w-5 text-destructive shrink-0" />
             Confirmer la suppression
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-xs sm:text-sm">
             Êtes-vous sûr de vouloir supprimer cette actualité ? Cette action est irréversible.
           </DialogDescription>
         </DialogHeader>

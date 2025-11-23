@@ -49,11 +49,11 @@ export function AdminFilters({ programs }: AdminFiltersProps) {
   }
 
   return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
-      <div className="flex-1">
-        <Label htmlFor="program-filter">Filtrer par programme</Label>
+    <div className="flex flex-col gap-3 sm:gap-4 md:flex-row md:items-end">
+      <div className="flex-1 min-w-0">
+        <Label htmlFor="program-filter" className="text-xs sm:text-sm">Filtrer par programme</Label>
         <Select value={selectedProgram} onValueChange={handleProgramChange}>
-          <SelectTrigger id="program-filter">
+          <SelectTrigger id="program-filter" className="text-xs sm:text-sm">
             <SelectValue placeholder="Tous les programmes" />
           </SelectTrigger>
           <SelectContent>
@@ -67,10 +67,10 @@ export function AdminFilters({ programs }: AdminFiltersProps) {
         </Select>
       </div>
 
-      <div className="flex-1">
-        <Label htmlFor="status-filter">Filtrer par statut</Label>
+      <div className="flex-1 min-w-0">
+        <Label htmlFor="status-filter" className="text-xs sm:text-sm">Filtrer par statut</Label>
         <Select value={selectedStatus} onValueChange={handleStatusChange}>
-          <SelectTrigger id="status-filter">
+          <SelectTrigger id="status-filter" className="text-xs sm:text-sm">
             <SelectValue placeholder="Tous les statuts" />
           </SelectTrigger>
           <SelectContent>

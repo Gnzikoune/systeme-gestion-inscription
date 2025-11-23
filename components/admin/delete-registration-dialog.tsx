@@ -39,10 +39,10 @@ export function DeleteRegistrationDialog({
           Supprimer
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="w-[95vw] sm:max-w-[425px] sm:w-full">
         <DialogHeader>
-          <DialogTitle>Confirmer la suppression</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-base sm:text-lg">Confirmer la suppression</DialogTitle>
+          <DialogDescription className="text-xs sm:text-sm">
             Êtes-vous sûr de vouloir supprimer cette inscription ? Cette action est irréversible.
           </DialogDescription>
         </DialogHeader>

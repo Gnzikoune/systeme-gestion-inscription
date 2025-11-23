@@ -68,9 +68,41 @@ export default function HomePage() {
         </section>
 
         {/* Stats Section */}
-        <section className="border-b border-border bg-muted/30 py-12">
+        <section className="border-b border-border bg-muted/30 py-8 sm:py-12">
           <div className="container mx-auto px-4">
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {/* Mobile & Tablet: Horizontal Scroll */}
+            <div className="flex gap-6 overflow-x-auto pb-4 lg:hidden snap-x snap-mandatory">
+              <div className="text-center min-w-[200px] sm:min-w-[220px] flex-shrink-0 snap-start">
+                <div className="mb-2 flex justify-center">
+                  <BookOpen className="h-8 w-8 text-primary" />
+                </div>
+                <div className="text-3xl font-bold text-foreground">138</div>
+                <div className="text-sm text-muted-foreground">Publications en IA</div>
+              </div>
+              <div className="text-center min-w-[200px] sm:min-w-[220px] flex-shrink-0 snap-start">
+                <div className="mb-2 flex justify-center">
+                  <Users className="h-8 w-8 text-accent" />
+                </div>
+                <div className="text-3xl font-bold text-foreground">17</div>
+                <div className="text-sm text-muted-foreground">Centres UIT mondiaux</div>
+              </div>
+              <div className="text-center min-w-[200px] sm:min-w-[220px] flex-shrink-0 snap-start">
+                <div className="mb-2 flex justify-center">
+                  <Award className="h-8 w-8 text-secondary" />
+                </div>
+                <div className="text-3xl font-bold text-foreground">90%</div>
+                <div className="text-sm text-muted-foreground">Couverture 3G/4G</div>
+              </div>
+              <div className="text-center min-w-[200px] sm:min-w-[220px] flex-shrink-0 snap-start">
+                <div className="mb-2 flex justify-center">
+                  <Globe className="h-8 w-8 text-primary" />
+                </div>
+                <div className="text-3xl font-bold text-foreground">UNESCO</div>
+                <div className="text-sm text-muted-foreground">Partenaire officiel</div>
+              </div>
+            </div>
+            {/* Desktop: Grid Layout */}
+            <div className="hidden lg:grid lg:grid-cols-4 lg:gap-8">
               <div className="text-center">
                 <div className="mb-2 flex justify-center">
                   <BookOpen className="h-8 w-8 text-primary" />

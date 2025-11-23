@@ -33,15 +33,15 @@ export function AdminMobileNav() {
   return (
     <>
       {/* Mobile Header */}
-      <div className="sticky top-0 z-50 flex items-center justify-between border-b border-border bg-card p-4 lg:hidden">
-        <Link href="/" className="flex items-center gap-2">
-          <Image src="/logo.png" alt="CSGR-IA Logo" width={32} height={32} className="object-contain" />
-          <div>
-            <h2 className="text-sm font-bold text-foreground">CSGR-IA</h2>
-            <p className="text-xs text-muted-foreground">Administration</p>
+      <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between border-b border-border bg-card px-4 py-3 shadow-sm lg:hidden">
+        <Link href="/" className="flex items-center gap-2 min-w-0">
+          <Image src="/logo.png" alt="CSGR-IA Logo" width={32} height={32} className="object-contain shrink-0" />
+          <div className="min-w-0">
+            <h2 className="text-sm font-bold text-foreground truncate">CSGR-IA</h2>
+            <p className="text-xs text-muted-foreground truncate">Administration</p>
           </div>
         </Link>
-        <Button variant="ghost" size="icon" onClick={() => setIsOpen(!isOpen)}>
+        <Button variant="ghost" size="icon" onClick={() => setIsOpen(!isOpen)} className="shrink-0">
           {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </Button>
       </div>
@@ -53,8 +53,8 @@ export function AdminMobileNav() {
             className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm lg:hidden"
             onClick={() => setIsOpen(false)}
           />
-          <aside className="fixed left-0 top-[73px] z-50 h-[calc(100vh-73px)] w-64 border-r border-border bg-card lg:hidden">
-            <nav className="space-y-1 p-4">
+          <aside className="fixed left-0 top-[65px] z-50 h-[calc(100vh-65px)] w-64 max-w-[85vw] border-r border-border bg-card shadow-lg lg:hidden">
+            <nav className="space-y-1 p-4 overflow-y-auto h-full">
               {sidebarLinks.map((link) => {
                 const Icon = link.icon
                 const isActive = pathname === link.href || (link.href !== "/admin" && pathname?.startsWith(link.href))
@@ -71,7 +71,7 @@ export function AdminMobileNav() {
                         : "text-muted-foreground hover:bg-muted hover:text-foreground",
                     )}
                   >
-                    <Icon className="h-5 w-5" />
+                    <Icon className="h-5 w-5 shrink-0" />
                     {link.label}
                   </Link>
                 )
@@ -81,7 +81,7 @@ export function AdminMobileNav() {
                 onClick={() => setIsOpen(false)}
                 className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
               >
-                <LayoutDashboard className="h-5 w-5" />
+                <LayoutDashboard className="h-5 w-5 shrink-0" />
                 Retour au site
               </Link>
             </nav>

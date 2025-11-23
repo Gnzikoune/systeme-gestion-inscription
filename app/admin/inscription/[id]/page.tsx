@@ -106,31 +106,32 @@ export default function RegistrationDetailPage({ params }: { params: Promise<{ i
     <div className="flex min-h-screen flex-col">
       <Header />
 
-      <main className="flex-1 bg-muted/30 py-4 sm:py-6 lg:py-8">
-        <div className="container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <main className="flex-1 bg-muted/30 py-3 sm:py-4 md:py-6 lg:py-8">
+        <div className="container mx-auto max-w-4xl px-3 sm:px-4 md:px-6 lg:px-8">
           {/* Back Button */}
-          <Button asChild variant="ghost" className="mb-4 sm:mb-6">
+          <Button asChild variant="ghost" size="sm" className="mb-3 sm:mb-4 md:mb-6 sm:size-default">
             <Link href="/admin">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Retour au tableau de bord
+              <ArrowLeft className="mr-2 h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Retour au tableau de bord</span>
+              <span className="sm:hidden">Retour</span>
             </Link>
           </Button>
 
           <AdminAuthNotice />
 
           {/* Header Card - improved responsive layout */}
-          <Card className="mb-4 sm:mb-6">
-            <CardHeader>
+          <Card className="mb-3 sm:mb-4 md:mb-6">
+            <CardHeader className="pb-3 sm:pb-6">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-                <div>
-                  <CardTitle className="mb-2 text-xl sm:text-2xl">
+                <div className="min-w-0 flex-1">
+                  <CardTitle className="mb-1.5 sm:mb-2 text-lg sm:text-xl md:text-2xl break-words">
                     {registration.nom} {registration.prenom}
                   </CardTitle>
-                  <CardDescription className="text-sm sm:text-base">{registration.numero_inscription}</CardDescription>
+                  <CardDescription className="text-xs sm:text-sm md:text-base break-all">{registration.numero_inscription}</CardDescription>
                 </div>
                 <Badge
                   variant={getPaymentStatusColor(registration.statut_paiement)}
-                  className="w-fit text-xs sm:text-sm"
+                  className="w-fit text-xs sm:text-sm shrink-0"
                 >
                   {formatPaymentStatus(registration.statut_paiement)}
                 </Badge>
@@ -138,13 +139,13 @@ export default function RegistrationDetailPage({ params }: { params: Promise<{ i
             </CardHeader>
           </Card>
 
-          <Card className="mb-4 sm:mb-6">
-            <CardHeader>
-              <CardTitle className="text-lg sm:text-xl">Actions Administrateur</CardTitle>
-              <CardDescription>Gérer cette inscription</CardDescription>
+          <Card className="mb-3 sm:mb-4 md:mb-6">
+            <CardHeader className="pb-3 sm:pb-6">
+              <CardTitle className="text-base sm:text-lg md:text-xl">Actions Administrateur</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">Gérer cette inscription</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <div className="flex flex-col gap-2 sm:gap-3 sm:flex-row sm:flex-wrap">
                 <StatusUpdateDialog
                   registrationId={registration.id}
                   currentStatus={registration.statut_paiement}
@@ -161,54 +162,54 @@ export default function RegistrationDetailPage({ params }: { params: Promise<{ i
           </Card>
 
           {/* Programme Information */}
-          <Card className="mb-4 sm:mb-6">
-            <CardHeader>
-              <CardTitle className="text-lg sm:text-xl">Programme</CardTitle>
+          <Card className="mb-3 sm:mb-4 md:mb-6">
+            <CardHeader className="pb-3 sm:pb-6">
+              <CardTitle className="text-base sm:text-lg md:text-xl">Programme</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex items-center gap-2 text-base font-medium text-foreground sm:text-lg">
-                <GraduationCap className="h-5 w-5 shrink-0 text-primary" />
+              <div className="flex items-center gap-2 text-sm font-medium text-foreground sm:text-base md:text-lg">
+                <GraduationCap className="h-4 w-4 sm:h-5 sm:w-5 shrink-0 text-primary" />
                 <span className="break-words">{registration.programme_nom}</span>
               </div>
             </CardContent>
           </Card>
 
           {/* Personal Information - improved responsive grid */}
-          <Card className="mb-4 sm:mb-6">
-            <CardHeader>
-              <CardTitle className="text-lg sm:text-xl">Informations Personnelles</CardTitle>
+          <Card className="mb-3 sm:mb-4 md:mb-6">
+            <CardHeader className="pb-3 sm:pb-6">
+              <CardTitle className="text-base sm:text-lg md:text-xl">Informations Personnelles</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="flex items-start gap-3">
-                  <Mail className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" />
+            <CardContent className="space-y-3 sm:space-y-4">
+              <div className="grid gap-3 sm:gap-4 sm:grid-cols-2">
+                <div className="flex items-start gap-2 sm:gap-3">
+                  <Mail className="mt-0.5 sm:mt-1 h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-muted-foreground" />
                   <div className="min-w-0 flex-1">
-                    <div className="text-sm font-medium text-muted-foreground">Email</div>
-                    <div className="break-words text-sm text-foreground">{registration.email}</div>
+                    <div className="text-xs sm:text-sm font-medium text-muted-foreground">Email</div>
+                    <div className="break-words text-xs sm:text-sm text-foreground">{registration.email}</div>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3">
-                  <Phone className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" />
-                  <div>
-                    <div className="text-sm font-medium text-muted-foreground">Téléphone</div>
-                    <div className="text-sm text-foreground">{registration.telephone}</div>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <MapPin className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" />
-                  <div>
-                    <div className="text-sm font-medium text-muted-foreground">Ville</div>
-                    <div className="text-sm text-foreground">{registration.ville}</div>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <Building2 className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" />
+                <div className="flex items-start gap-2 sm:gap-3">
+                  <Phone className="mt-0.5 sm:mt-1 h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-muted-foreground" />
                   <div className="min-w-0 flex-1">
-                    <div className="text-sm font-medium text-muted-foreground">Organisation</div>
-                    <div className="break-words text-sm text-foreground">
+                    <div className="text-xs sm:text-sm font-medium text-muted-foreground">Téléphone</div>
+                    <div className="text-xs sm:text-sm text-foreground break-words">{registration.telephone}</div>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-2 sm:gap-3">
+                  <MapPin className="mt-0.5 sm:mt-1 h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-muted-foreground" />
+                  <div className="min-w-0 flex-1">
+                    <div className="text-xs sm:text-sm font-medium text-muted-foreground">Ville</div>
+                    <div className="text-xs sm:text-sm text-foreground break-words">{registration.ville}</div>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-2 sm:gap-3">
+                  <Building2 className="mt-0.5 sm:mt-1 h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-muted-foreground" />
+                  <div className="min-w-0 flex-1">
+                    <div className="text-xs sm:text-sm font-medium text-muted-foreground">Organisation</div>
+                    <div className="break-words text-xs sm:text-sm text-foreground">
                       {registration.organisation || "Non renseignée"}
                     </div>
                   </div>
@@ -217,41 +218,41 @@ export default function RegistrationDetailPage({ params }: { params: Promise<{ i
 
               <Separator />
 
-              <div className="flex items-start gap-3">
-                <GraduationCap className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" />
-                <div>
-                  <div className="text-sm font-medium text-muted-foreground">Niveau d'études</div>
-                  <div className="text-sm text-foreground">{registration.niveau_etude}</div>
+              <div className="flex items-start gap-2 sm:gap-3">
+                <GraduationCap className="mt-0.5 sm:mt-1 h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-muted-foreground" />
+                <div className="min-w-0 flex-1">
+                  <div className="text-xs sm:text-sm font-medium text-muted-foreground">Niveau d'études</div>
+                  <div className="text-xs sm:text-sm text-foreground break-words">{registration.niveau_etude}</div>
                 </div>
               </div>
             </CardContent>
           </Card>
 
           {/* Motivation */}
-          <Card className="mb-4 sm:mb-6">
-            <CardHeader>
-              <CardTitle className="text-lg sm:text-xl">Motivation</CardTitle>
+          <Card className="mb-3 sm:mb-4 md:mb-6">
+            <CardHeader className="pb-3 sm:pb-6">
+              <CardTitle className="text-base sm:text-lg md:text-xl">Motivation</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex items-start gap-3">
-                <FileText className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" />
-                <p className="text-sm leading-relaxed text-foreground">{registration.motivation}</p>
+              <div className="flex items-start gap-2 sm:gap-3">
+                <FileText className="mt-0.5 sm:mt-1 h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-muted-foreground" />
+                <p className="text-xs sm:text-sm leading-relaxed text-foreground break-words">{registration.motivation}</p>
               </div>
             </CardContent>
           </Card>
 
           {/* Payment Information - improved responsive grid */}
           <Card>
-            <CardHeader>
-              <CardTitle className="text-lg sm:text-xl">Informations de Paiement</CardTitle>
+            <CardHeader className="pb-3 sm:pb-6">
+              <CardTitle className="text-base sm:text-lg md:text-xl">Informations de Paiement</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="flex items-start gap-3">
-                  <Calendar className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" />
-                  <div>
-                    <div className="text-sm font-medium text-muted-foreground">Date d'inscription</div>
-                    <div className="text-sm text-foreground">
+            <CardContent className="space-y-3 sm:space-y-4">
+              <div className="grid gap-3 sm:gap-4 sm:grid-cols-2">
+                <div className="flex items-start gap-2 sm:gap-3">
+                  <Calendar className="mt-0.5 sm:mt-1 h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-muted-foreground" />
+                  <div className="min-w-0 flex-1">
+                    <div className="text-xs sm:text-sm font-medium text-muted-foreground">Date d'inscription</div>
+                    <div className="text-xs sm:text-sm text-foreground break-words">
                       {new Date(registration.date_inscription).toLocaleString("fr-FR", {
                         dateStyle: "long",
                         timeStyle: "short",
@@ -260,20 +261,20 @@ export default function RegistrationDetailPage({ params }: { params: Promise<{ i
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3">
-                  <CreditCard className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" />
-                  <div>
-                    <div className="text-sm font-medium text-muted-foreground">Méthode de paiement</div>
-                    <div className="text-sm capitalize text-foreground">{registration.methode_paiement}</div>
+                <div className="flex items-start gap-2 sm:gap-3">
+                  <CreditCard className="mt-0.5 sm:mt-1 h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-muted-foreground" />
+                  <div className="min-w-0 flex-1">
+                    <div className="text-xs sm:text-sm font-medium text-muted-foreground">Méthode de paiement</div>
+                    <div className="text-xs sm:text-sm capitalize text-foreground break-words">{registration.methode_paiement}</div>
                   </div>
                 </div>
               </div>
 
               <Separator />
 
-              <div className="flex items-center justify-between rounded-lg bg-muted/50 p-4">
-                <div className="text-sm font-medium text-muted-foreground">Montant</div>
-                <div className="text-xl font-bold text-foreground sm:text-2xl">
+              <div className="flex items-center justify-between rounded-lg bg-muted/50 p-3 sm:p-4">
+                <div className="text-xs sm:text-sm font-medium text-muted-foreground">Montant</div>
+                <div className="text-lg sm:text-xl md:text-2xl font-bold text-foreground">
                   {registration.montant === 0 ? "Gratuit" : `${registration.montant.toLocaleString()} FCFA`}
                 </div>
               </div>

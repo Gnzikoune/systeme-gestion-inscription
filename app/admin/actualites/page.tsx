@@ -66,25 +66,26 @@ export default function AdminActualitesPage() {
   }
 
   return (
-    <div className="min-h-screen p-4 sm:p-6 lg:p-8">
-      <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Gestion des Actualités</h1>
-          <p className="mt-2 text-sm text-muted-foreground sm:text-base">
+    <div className="min-h-screen p-3 sm:p-4 md:p-6 lg:p-8">
+      <div className="mb-4 flex flex-col gap-3 sm:mb-6 sm:gap-4 md:mb-8 md:flex-row md:items-center md:justify-between">
+        <div className="min-w-0 flex-1">
+          <h1 className="text-xl font-bold text-foreground sm:text-2xl md:text-3xl">Gestion des Actualités</h1>
+          <p className="mt-1.5 text-xs text-muted-foreground sm:mt-2 sm:text-sm md:text-base">
             Gérez les actualités affichées sur la page d'accueil du site
           </p>
         </div>
-        <Button onClick={() => setShowAddDialog(true)} size="default" className="w-full sm:w-auto">
+        <Button onClick={() => setShowAddDialog(true)} size="sm" className="w-full shrink-0 sm:w-auto sm:size-default">
           <Plus className="mr-2 h-4 w-4" />
-          Nouvelle actualité
+          <span className="hidden sm:inline">Nouvelle actualité</span>
+          <span className="sm:hidden">Nouvelle</span>
         </Button>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3 sm:space-y-4">
         {news.length === 0 ? (
           <Card>
-            <CardContent className="py-12 text-center">
-              <p className="text-sm text-muted-foreground sm:text-base">
+            <CardContent className="py-8 text-center sm:py-12">
+              <p className="text-xs text-muted-foreground sm:text-sm md:text-base">
                 Aucune actualité. Cliquez sur "Nouvelle actualité" pour commencer.
               </p>
             </CardContent>
@@ -92,21 +93,21 @@ export default function AdminActualitesPage() {
         ) : (
           news.map((item, index) => (
             <Card key={item.id} className={!item.actif ? "opacity-60" : ""}>
-              <CardHeader>
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <CardHeader className="pb-3 sm:pb-6">
+                <div className="flex flex-col gap-3 sm:gap-4 md:flex-row md:items-start md:justify-between">
                   <div className="min-w-0 flex-1">
-                    <div className="mb-2 flex flex-wrap items-center gap-2">
-                      <CardTitle className="break-words text-base sm:text-lg">{item.titre}</CardTitle>
-                      {item.actif ? <Badge variant="default">Actif</Badge> : <Badge variant="secondary">Inactif</Badge>}
+                    <div className="mb-2 flex flex-wrap items-center gap-1.5 sm:gap-2">
+                      <CardTitle className="break-words text-sm sm:text-base md:text-lg">{item.titre}</CardTitle>
+                      {item.actif ? <Badge variant="default" className="text-xs">Actif</Badge> : <Badge variant="secondary" className="text-xs">Inactif</Badge>}
                       <Badge variant="outline" className="text-xs">
                         {item.type === "actualite" ? "Actualité" : item.type === "evenement" ? "Événement" : "Archive"}
                       </Badge>
                     </div>
-                    <CardDescription className="text-xs sm:text-sm">
+                    <CardDescription className="text-xs sm:text-sm break-words">
                       {item.date} · {item.lieu}
                     </CardDescription>
                   </div>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2 shrink-0">
                     <Button
                       variant="outline"
                       size="sm"
@@ -115,7 +116,7 @@ export default function AdminActualitesPage() {
                       title="Monter"
                       className="h-8 w-8 p-0 sm:h-9 sm:w-9"
                     >
-                      <ArrowUp className="h-4 w-4" />
+                      <ArrowUp className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                     </Button>
                     <Button
                       variant="outline"
@@ -125,7 +126,7 @@ export default function AdminActualitesPage() {
                       title="Descendre"
                       className="h-8 w-8 p-0 sm:h-9 sm:w-9"
                     >
-                      <ArrowDown className="h-4 w-4" />
+                      <ArrowDown className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                     </Button>
                     <Button
                       variant="outline"
@@ -134,7 +135,7 @@ export default function AdminActualitesPage() {
                       title={item.actif ? "Désactiver" : "Activer"}
                       className="h-8 w-8 p-0 sm:h-9 sm:w-9"
                     >
-                      {item.actif ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      {item.actif ? <EyeOff className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> : <Eye className="h-3.5 w-3.5 sm:h-4 sm:w-4" />}
                     </Button>
                     <Button
                       variant="outline"
@@ -143,7 +144,7 @@ export default function AdminActualitesPage() {
                       title="Modifier"
                       className="h-8 w-8 p-0 sm:h-9 sm:w-9"
                     >
-                      <Pencil className="h-4 w-4" />
+                      <Pencil className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                     </Button>
                     <Button
                       variant="outline"
@@ -152,14 +153,14 @@ export default function AdminActualitesPage() {
                       className="h-8 w-8 p-0 text-destructive hover:bg-destructive hover:text-destructive-foreground sm:h-9 sm:w-9"
                       title="Supprimer"
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                     </Button>
                   </div>
                 </div>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-0 sm:pt-6">
                 {item.image && (
-                  <div className="mb-4">
+                  <div className="mb-3 sm:mb-4">
                     <img
                       src={item.image || "/placeholder.svg"}
                       alt={item.titre}
@@ -167,7 +168,7 @@ export default function AdminActualitesPage() {
                     />
                   </div>
                 )}
-                <p className="text-sm leading-relaxed text-muted-foreground">{item.description}</p>
+                <p className="text-xs leading-relaxed text-muted-foreground sm:text-sm">{item.description}</p>
               </CardContent>
             </Card>
           ))

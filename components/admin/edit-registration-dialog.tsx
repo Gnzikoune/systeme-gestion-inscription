@@ -64,10 +64,10 @@ export function EditRegistrationDialog({ registration, onUpdate }: EditRegistrat
           Modifier les informations
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[600px]">
+      <DialogContent className="max-h-[90vh] overflow-y-auto w-[95vw] max-w-[600px] sm:w-full">
         <DialogHeader>
-          <DialogTitle>Modifier les informations</DialogTitle>
-          <DialogDescription>Modifiez les informations personnelles et académiques de l'inscrit.</DialogDescription>
+          <DialogTitle className="text-base sm:text-lg">Modifier les informations</DialogTitle>
+          <DialogDescription className="text-xs sm:text-sm">Modifiez les informations personnelles et académiques de l'inscrit.</DialogDescription>
         </DialogHeader>
         <div className="space-y-4 py-4">
           <div className="grid gap-4 sm:grid-cols-2">

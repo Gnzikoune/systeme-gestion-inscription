@@ -85,10 +85,10 @@ export function AddNewsDialog({ open, onOpenChange, onSuccess }: AddNewsDialogPr
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
+      <DialogContent className="max-h-[90vh] w-[95vw] max-w-2xl overflow-y-auto sm:w-full">
         <DialogHeader>
-          <DialogTitle>Nouvelle Actualité</DialogTitle>
-          <DialogDescription>Ajoutez une nouvelle actualité à afficher sur le site.</DialogDescription>
+          <DialogTitle className="text-base sm:text-lg">Nouvelle Actualité</DialogTitle>
+          <DialogDescription className="text-xs sm:text-sm">Ajoutez une nouvelle actualité à afficher sur le site.</DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="space-y-4">

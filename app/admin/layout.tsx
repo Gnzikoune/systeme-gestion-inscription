@@ -14,7 +14,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       <AdminMobileNav />
 
       {/* Main Content */}
-      <main className="flex-1 lg:ml-64">{children}</main>
+      <main className="flex-1 pt-[65px] lg:ml-64 lg:pt-0">{children}</main>
     </div>
   )
 }
