@@ -13,9 +13,11 @@ import { Calendar, Clock, ArrowRight, Users, BookOpen, Award, Globe, CalendarDay
 import { useEffect, useState } from "react"
 import { getNewsFromStorage } from "@/lib/storage/news-storage"
 import { getStatsFromStorage } from "@/lib/storage/stats-storage"
+import { getCTAFromStorage } from "@/lib/storage/cta-storage"
 import type { News } from "@/lib/data/news"
 import type { Stat } from "@/lib/data/stats"
 import type { Program } from "@/lib/data/programs"
+import type { CTA } from "@/lib/data/cta"
 
 const iconMap = {
   BookOpen,
@@ -39,6 +41,7 @@ export default function HomePage() {
   const [news, setNews] = useState<News[]>([])
   const [stats, setStats] = useState<Stat[]>([])
   const [programs, setPrograms] = useState<Program[]>([])
+  const [cta, setCTA] = useState<CTA | null>(null)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -53,6 +56,9 @@ export default function HomePage() {
 
     const loadedPrograms = getProgramsFromStorage()
     setPrograms(loadedPrograms)
+
+    const loadedCTA = getCTAFromStorage()
+    setCTA(loadedCTA)
   }, [])
 
   const actualites = news.filter((n) => n.type === "actualite")
@@ -255,7 +261,7 @@ export default function HomePage() {
                       <span>{program.date_debut}</span>
                     </div>
                   </CardContent>
-                  <CardFooter className="!px-6">
+                  <CardFooter className="!px-6 !pb-6">
                     <Button asChild className="w-full">
                       <Link href={`/programme/${program.id}`}>
                         Voir les détails
@@ -343,7 +349,7 @@ export default function HomePage() {
                             {item.description}
                           </p>
                         </CardContent>
-                        <CardFooter className="!px-6">
+                        <CardFooter className="!px-6 !pb-6">
                           <Button asChild variant="ghost" className="w-full group-hover:bg-primary/5">
                             <Link href={`/actualite/${item.id}`}>
                               Lire la suite
@@ -475,6 +481,43 @@ export default function HomePage() {
             </Tabs>
           </div>
         </section>
+
+        {/* CTA Section */}
+        {cta && cta.actif && (
+          <section className="relative py-12 sm:py-16 md:py-20 overflow-hidden">
+            {/* Background Image */}
+            <div className="absolute inset-0 z-0">
+              <Image
+                src={cta.image_background || "/placeholder.svg"}
+                alt=""
+                fill
+                className="object-cover"
+                sizes="100vw"
+                priority
+              />
+              {/* Overlay for better text readability */}
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/80 via-accent/80 to-secondary/80" />
+            </div>
+            
+            {/* Content */}
+            <div className="container relative z-10 mx-auto px-4">
+              <div className="mx-auto max-w-4xl rounded-lg border border-primary-foreground/20 bg-background/90 backdrop-blur-sm p-6 sm:p-8 md:p-10 text-center shadow-lg">
+                <h2 className="mb-3 text-xl font-bold text-foreground sm:text-2xl md:text-2xl lg:text-2xl">
+                  {cta.titre}
+                </h2>
+                <p className="mb-6 text-xs text-muted-foreground sm:text-sm md:text-sm lg:text-base leading-relaxed">
+                  {cta.description}
+                </p>
+                <Button asChild size="lg" className="mx-auto">
+                  <Link href={cta.lien_bouton}>
+                    {cta.texte_bouton}
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </section>
+        )}
       </main>
 
       <Footer />

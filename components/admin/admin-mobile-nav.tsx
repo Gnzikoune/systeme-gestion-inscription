@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, X, Users, Newspaper, Settings, LayoutDashboard, GraduationCap, BarChart3 } from "lucide-react"
+import { Menu, X, Users, Newspaper, Settings, LayoutDashboard, GraduationCap, BarChart3, Megaphone } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
@@ -28,6 +28,11 @@ const sidebarLinks = [
     href: "/admin/statistiques",
     label: "Statistiques",
     icon: BarChart3,
+  },
+  {
+    href: "/admin/cta",
+    label: "Section CTA",
+    icon: Megaphone,
   },
   {
     href: "/admin/parametres",

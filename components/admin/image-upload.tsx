@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Upload, X } from "lucide-react"
@@ -18,6 +18,11 @@ interface ImageUploadProps {
 export function ImageUpload({ value, onChange, label = "Image", description }: ImageUploadProps) {
   const [preview, setPreview] = useState(value)
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  // Sync preview with value prop when it changes
+  useEffect(() => {
+    setPreview(value)
+  }, [value])
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
