@@ -229,8 +229,8 @@ export default function HomePage() {
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {programs.map((program) => (
                 <Card key={program.id} className="flex flex-col transition-shadow hover:shadow-lg">
-                  <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
-                    <Image src={program.image || "/placeholder.svg"} alt={program.nom} fill className="object-cover" />
+                  <div className="relative h-48 w-full overflow-hidden rounded-t-lg bg-muted">
+                    <Image src={program.image || "/placeholder.svg"} alt={program.nom} fill className="object-cover" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
                   </div>
                   <CardHeader>
                     <div className="mb-2 flex items-center justify-between">
@@ -313,12 +313,13 @@ export default function HomePage() {
                     {recentNews.map((item) => (
                       <Card key={item.id} className="group overflow-hidden transition-all hover:shadow-xl">
                         {item.image && (
-                          <div className="relative h-48 w-full overflow-hidden">
+                          <div className="relative h-48 w-full overflow-hidden bg-muted">
                             <Image
                               src={item.image || "/placeholder.svg"}
                               alt={item.titre}
                               fill
                               className="object-cover transition-transform duration-300 group-hover:scale-105"
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             />
                             <div className="absolute top-3 right-3">
                               <Badge className="bg-background/80 text-foreground backdrop-blur-sm">
@@ -370,12 +371,13 @@ export default function HomePage() {
                       <Card key={item.id} className="group overflow-hidden transition-all hover:shadow-xl">
                         <div className="flex flex-col md:flex-row">
                           {item.image && (
-                            <div className="relative h-48 w-full md:h-auto md:w-48 flex-shrink-0 overflow-hidden">
+                            <div className="relative h-48 w-full md:h-auto md:w-48 flex-shrink-0 overflow-hidden bg-muted">
                               <Image
                                 src={item.image || "/placeholder.svg"}
                                 alt={item.titre}
                                 fill
                                 className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                sizes="(max-width: 768px) 100vw, 192px"
                               />
                             </div>
                           )}
@@ -430,12 +432,13 @@ export default function HomePage() {
                       >
                         <div className="flex flex-col sm:flex-row">
                           {item.image && (
-                            <div className="relative h-32 w-full sm:h-auto sm:w-32 flex-shrink-0 overflow-hidden">
+                            <div className="relative h-32 w-full sm:h-auto sm:w-32 flex-shrink-0 overflow-hidden bg-muted">
                               <Image
                                 src={item.image || "/placeholder.svg"}
                                 alt={item.titre}
                                 fill
                                 className="object-cover"
+                                sizes="(max-width: 640px) 100vw, 128px"
                               />
                             </div>
                           )}

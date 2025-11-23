@@ -54,7 +54,7 @@ export function PromoPopup() {
   }, [open])
 
   useEffect(() => {
-    if (!config.enabled || !program) return
+    if (!config.enabled || !program || open) return
 
     // Ne pas afficher sur les pages d'inscription, programme ou paiement de cette formation
     if (
@@ -79,40 +79,53 @@ export function PromoPopup() {
 
     // Afficher le popup après le délai configuré
     const timer = setTimeout(() => {
+      // Vérifier à nouveau avant d'ouvrir (au cas où l'utilisateur aurait fermé entre temps)
+      const currentDismissedData = localStorage.getItem(STORAGE_KEY)
+      if (currentDismissedData) {
+        const dismissedTime = parseInt(currentDismissedData, 10)
+        const now = Date.now()
+        const cooldownMs = config.cooldownDays * 24 * 60 * 60 * 1000
+        if (now - dismissedTime < cooldownMs) {
+          return // Ne pas ouvrir si fermé entre temps
+        }
+      }
       setOpen(true)
     }, config.delay)
 
     return () => clearTimeout(timer)
-  }, [config, program, pathname])
+  }, [config, program, pathname, open])
 
-  const handleClose = () => {
-    setOpen(false)
-    // Enregistrer la date de fermeture
-    localStorage.setItem(STORAGE_KEY, Date.now().toString())
+  const handleClose = (open: boolean) => {
+    if (!open) {
+      // Enregistrer la date de fermeture uniquement si on ferme le popup
+      localStorage.setItem(STORAGE_KEY, Date.now().toString())
+    }
+    setOpen(open)
   }
 
   const handleInscription = () => {
-    handleClose()
+    handleClose(false)
     router.push(`/inscription/${program?.id}`)
   }
 
   if (!program) return null
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent 
         className="max-w-md p-0 overflow-hidden [&>button]:z-50 [&>button]:bg-background/90 [&>button]:backdrop-blur-sm [&>button]:opacity-100 [&>button]:hover:bg-background [&>button]:shadow-md" 
         showCloseButton={true}
       >
         <div className="relative">
           {/* Image de fond */}
-          <div className="relative h-32 w-full overflow-hidden">
+          <div className="relative h-32 w-full overflow-hidden bg-muted">
             <Image
               src={program.image || "/placeholder.svg"}
               alt={program.nom}
               fill
               className="object-cover"
               priority
+              sizes="(max-width: 448px) 100vw, 448px"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
             <div className="absolute top-2 right-2">
@@ -172,7 +185,7 @@ export function PromoPopup() {
                 <Link 
                   href={`/programme/${program.id}`} 
                   className="text-xs"
-                  onClick={handleClose}
+                  onClick={() => handleClose(false)}
                 >
                   En savoir plus
                 </Link>

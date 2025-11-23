@@ -61,7 +61,7 @@ export function ImageUpload({ value, onChange, label = "Image", description }: I
       <div className="space-y-4">
         {preview ? (
           <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-border">
-            <Image src={preview || "/placeholder.svg"} alt="Preview" fill className="object-cover" />
+            <Image src={preview || "/placeholder.svg"} alt="Preview" fill className="object-cover" sizes="(max-width: 768px) 100vw, 400px" />
             <Button
               type="button"
               variant="destructive"
