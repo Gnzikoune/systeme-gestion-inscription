@@ -34,8 +34,8 @@ export default function RegistrationDetailPage() {
     const id = params?.id as string
     if (id) {
       const reg = getRegistrationById(id)
-      setRegistration(reg || null)
-      setLoading(false)
+    setRegistration(reg || null)
+    setLoading(false)
     }
   }
 

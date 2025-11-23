@@ -228,11 +228,11 @@ export default function HomePage() {
 
             <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
               {programs.map((program) => (
-                <Card key={program.id} className="flex flex-col transition-all hover:shadow-md border-border/50">
-                  <div className="relative h-40 sm:h-44 w-full overflow-hidden rounded-t-lg bg-muted">
-                    <Image src={program.image || "/placeholder.svg"} alt={program.nom} fill className="object-cover" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
+                <Card key={program.id} className="flex flex-col transition-all hover:shadow-md border-border/50 overflow-hidden !p-0">
+                  <div className="relative h-40 sm:h-44 w-full overflow-hidden bg-muted">
+                    <Image src={program.image || "/placeholder.svg"} alt={program.nom} fill className="object-cover" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" style={{ objectPosition: 'center' }} />
                   </div>
-                  <CardHeader>
+                  <CardHeader className="!px-6 !pt-6">
                     <div className="mb-2 flex items-center justify-between">
                       {program.gratuit ? (
                         <Badge className="bg-accent text-accent-foreground">Gratuit</Badge>
@@ -249,13 +249,13 @@ export default function HomePage() {
                       {program.description_courte}
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className="flex-1">
+                  <CardContent className="flex-1 !px-6">
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Calendar className="h-4 w-4" />
                       <span>{program.date_debut}</span>
                     </div>
                   </CardContent>
-                  <CardFooter>
+                  <CardFooter className="!px-6">
                     <Button asChild className="w-full">
                       <Link href={`/programme/${program.id}`}>
                         Voir les détails
@@ -311,7 +311,7 @@ export default function HomePage() {
                 ) : (
                   <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
                     {recentNews.map((item) => (
-                      <Card key={item.id} className="group overflow-hidden transition-all hover:shadow-md border-border/50">
+                      <Card key={item.id} className="group overflow-hidden transition-all hover:shadow-md border-border/50 !p-0">
                         {item.image && (
                           <div className="relative h-40 sm:h-44 w-full overflow-hidden bg-muted">
                             <Image
@@ -320,6 +320,7 @@ export default function HomePage() {
                               fill
                               className="object-cover transition-transform duration-300 group-hover:scale-105"
                               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                              style={{ objectPosition: 'center' }}
                             />
                             <div className="absolute top-3 right-3">
                               <Badge className="bg-background/80 text-foreground backdrop-blur-sm">
@@ -328,7 +329,7 @@ export default function HomePage() {
                             </div>
                           </div>
                         )}
-                        <CardHeader>
+                        <CardHeader className="!px-6 !pt-6">
                           <div className="mb-2 flex items-center gap-2 text-xs text-muted-foreground">
                             <Calendar className="h-3 w-3" />
                             {item.date} · {item.lieu}
@@ -337,12 +338,12 @@ export default function HomePage() {
                             {item.titre}
                           </CardTitle>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="!px-6">
                           <p className="text-xs sm:text-xs md:text-sm leading-relaxed text-muted-foreground line-clamp-3">
                             {item.description}
                           </p>
                         </CardContent>
-                        <CardFooter>
+                        <CardFooter className="!px-6">
                           <Button asChild variant="ghost" className="w-full group-hover:bg-primary/5">
                             <Link href={`/actualite/${item.id}`}>
                               Lire la suite
@@ -378,6 +379,7 @@ export default function HomePage() {
                                 fill
                                 className="object-cover transition-transform duration-300 group-hover:scale-105"
                                 sizes="(max-width: 768px) 100vw, 192px"
+                                style={{ objectPosition: 'center' }}
                               />
                             </div>
                           )}
@@ -439,6 +441,7 @@ export default function HomePage() {
                                 fill
                                 className="object-cover"
                                 sizes="(max-width: 640px) 100vw, 128px"
+                                style={{ objectPosition: 'center' }}
                               />
                             </div>
                           )}

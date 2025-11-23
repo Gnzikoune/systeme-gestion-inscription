@@ -99,7 +99,7 @@ export default function ProgramPage() {
         <section className="border-b border-border">
           <div className="container mx-auto px-4 py-8">
             <div className="relative mx-auto h-96 max-w-4xl overflow-hidden rounded-lg bg-muted">
-              <Image src={program.image || "/placeholder.svg"} alt={program.nom} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 896px" />
+              <Image src={program.image || "/placeholder.svg"} alt={program.nom} fill className="object-cover rounded-lg" sizes="(max-width: 1024px) 100vw, 896px" style={{ objectPosition: 'center' }} />
             </div>
           </div>
         </section>

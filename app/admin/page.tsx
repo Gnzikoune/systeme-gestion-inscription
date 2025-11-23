@@ -44,13 +44,13 @@ export default function AdminDashboardPage() {
   const [showClearDialog, setShowClearDialog] = useState(false)
 
   const handleClearAllData = () => {
-    localStorage.removeItem("csgr_ia_registrations")
-    loadRegistrations()
+      localStorage.removeItem("csgr_ia_registrations")
+      loadRegistrations()
     setShowClearDialog(false)
-    toast({
-      title: "Données supprimées",
-      description: "Toutes les inscriptions ont été supprimées.",
-    })
+      toast({
+        title: "Données supprimées",
+        description: "Toutes les inscriptions ont été supprimées.",
+      })
   }
 
   // Calculate statistics
