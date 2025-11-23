@@ -72,12 +72,12 @@ export default function AdminCTAPage() {
             Configurez la section d'appel à l'action affichée sur la page d'accueil
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
+          <div className="flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 justify-center sm:justify-start">
             {formData.actif ? (
-              <Eye className="h-4 w-4 text-green-600" />
+              <Eye className="h-4 w-4 text-green-600 shrink-0" />
             ) : (
-              <EyeOff className="h-4 w-4 text-muted-foreground" />
+              <EyeOff className="h-4 w-4 text-muted-foreground shrink-0" />
             )}
             <span className="text-xs sm:text-sm text-muted-foreground">
               {formData.actif ? "Visible" : "Masquée"}
@@ -94,15 +94,15 @@ export default function AdminCTAPage() {
       <div className="grid gap-4 sm:gap-6 lg:grid-cols-2">
         {/* Formulaire */}
         <Card>
-          <CardHeader>
-            <CardTitle className="text-base sm:text-lg md:text-lg lg:text-lg">Configuration</CardTitle>
-            <CardDescription className="text-xs sm:text-sm md:text-sm lg:text-sm">
+          <CardHeader className="pb-3 sm:pb-6">
+            <CardTitle className="text-sm sm:text-base md:text-base lg:text-base">Configuration</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">
               Modifiez le contenu de la section CTA
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-3 sm:space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="actif" className="text-xs sm:text-sm md:text-sm lg:text-sm">
+              <Label htmlFor="actif" className="text-xs sm:text-sm">
                 Statut
               </Label>
               <div className="flex items-center gap-3">
@@ -111,14 +111,14 @@ export default function AdminCTAPage() {
                   checked={formData.actif ?? true}
                   onCheckedChange={handleToggleActive}
                 />
-                <span className="text-xs sm:text-sm text-muted-foreground">
+                <span className="text-xs sm:text-sm text-muted-foreground break-words">
                   {formData.actif ? "Section visible sur la page d'accueil" : "Section masquée"}
                 </span>
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="titre" className="text-xs sm:text-sm md:text-sm lg:text-sm">
+              <Label htmlFor="titre" className="text-xs sm:text-sm">
                 Titre
               </Label>
               <Input
@@ -126,12 +126,12 @@ export default function AdminCTAPage() {
                 value={formData.titre || ""}
                 onChange={(e) => setFormData((prev) => ({ ...prev, titre: e.target.value }))}
                 placeholder="Titre de la section CTA"
-                className="text-xs sm:text-sm md:text-sm lg:text-sm"
+                className="text-xs sm:text-sm"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="description" className="text-xs sm:text-sm md:text-sm lg:text-sm">
+              <Label htmlFor="description" className="text-xs sm:text-sm">
                 Description
               </Label>
               <Textarea
@@ -140,12 +140,12 @@ export default function AdminCTAPage() {
                 onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
                 placeholder="Description de la section CTA"
                 rows={4}
-                className="text-xs sm:text-sm md:text-sm lg:text-sm"
+                className="text-xs sm:text-sm"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="texte_bouton" className="text-xs sm:text-sm md:text-sm lg:text-sm">
+              <Label htmlFor="texte_bouton" className="text-xs sm:text-sm">
                 Texte du bouton
               </Label>
               <Input
@@ -153,12 +153,12 @@ export default function AdminCTAPage() {
                 value={formData.texte_bouton || ""}
                 onChange={(e) => setFormData((prev) => ({ ...prev, texte_bouton: e.target.value }))}
                 placeholder="Texte affiché sur le bouton"
-                className="text-xs sm:text-sm md:text-sm lg:text-sm"
+                className="text-xs sm:text-sm"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="lien_bouton" className="text-xs sm:text-sm md:text-sm lg:text-sm">
+              <Label htmlFor="lien_bouton" className="text-xs sm:text-sm">
                 Lien du bouton
               </Label>
               <Input
@@ -166,12 +166,12 @@ export default function AdminCTAPage() {
                 value={formData.lien_bouton || ""}
                 onChange={(e) => setFormData((prev) => ({ ...prev, lien_bouton: e.target.value }))}
                 placeholder="/#programmes ou /contact"
-                className="text-xs sm:text-sm md:text-sm lg:text-sm"
+                className="text-xs sm:text-sm"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="image_background" className="text-xs sm:text-sm md:text-sm lg:text-sm">
+              <Label htmlFor="image_background" className="text-xs sm:text-sm">
                 Image de fond
               </Label>
               <ImageUpload
@@ -185,14 +185,14 @@ export default function AdminCTAPage() {
 
         {/* Aperçu */}
         <Card>
-          <CardHeader>
-            <CardTitle className="text-base sm:text-lg md:text-lg lg:text-lg">Aperçu</CardTitle>
-            <CardDescription className="text-xs sm:text-sm md:text-sm lg:text-sm">
+          <CardHeader className="pb-3 sm:pb-6">
+            <CardTitle className="text-sm sm:text-base md:text-base lg:text-base">Aperçu</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">
               Prévisualisation de la section CTA
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="relative rounded-lg border border-border overflow-hidden" style={{ minHeight: "300px" }}>
+            <div className="relative rounded-lg border border-border overflow-hidden min-h-[250px] sm:min-h-[300px] md:min-h-[350px]">
               {/* Background Image Preview */}
               {formData.image_background && (
                 <div className="absolute inset-0 z-0">
@@ -210,19 +210,19 @@ export default function AdminCTAPage() {
               )}
               {!formData.image_background && (
                 <div className="absolute inset-0 z-0 bg-muted flex items-center justify-center">
-                  <p className="text-sm text-muted-foreground">Aucune image de fond</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground">Aucune image de fond</p>
                 </div>
               )}
               
               {/* Content Preview */}
-              <div className="relative z-10 p-6 sm:p-8 text-center">
-                <h2 className="mb-3 text-lg font-bold text-foreground sm:text-xl md:text-xl lg:text-2xl">
+              <div className="relative z-10 p-4 sm:p-6 md:p-8 text-center">
+                <h2 className="mb-2 sm:mb-3 text-base font-bold text-foreground sm:text-lg md:text-xl lg:text-2xl break-words">
                   {formData.titre || "Titre de la section CTA"}
                 </h2>
-                <p className="mb-6 text-sm text-muted-foreground sm:text-base md:text-base lg:text-lg">
+                <p className="mb-4 sm:mb-6 text-xs text-muted-foreground sm:text-sm md:text-base lg:text-base leading-relaxed break-words">
                   {formData.description || "Description de la section CTA"}
                 </p>
-                <Button asChild size="lg" className="mx-auto">
+                <Button asChild size="sm" className="mx-auto sm:size-default md:size-lg">
                   <a href={formData.lien_bouton || "#"}>
                     {formData.texte_bouton || "Texte du bouton"}
                   </a>
