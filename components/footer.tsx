@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import { Facebook, Twitter, Linkedin, Instagram, Youtube } from "lucide-react"
 
 export function Footer() {
   return (
@@ -11,9 +12,56 @@ export function Footer() {
               <Image src="/logo.png" alt="CSGR-IA Logo" width={80} height={80} className="h-20 w-20 object-contain" />
             </Link>
             <h3 className="mb-2 text-base sm:text-lg md:text-xl font-semibold text-foreground">CSGR-IA</h3>
-            <p className="text-xs sm:text-sm md:text-base text-muted-foreground leading-relaxed">
+            <p className="mb-4 text-xs sm:text-sm md:text-base text-muted-foreground leading-relaxed">
               Comité Scientifique Gabonais de Recherche sur l'Intelligence Artificielle
             </p>
+            <div className="flex items-center gap-3">
+              <Link
+                href="https://www.facebook.com/csgr.ia"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground transition-colors hover:text-primary"
+                aria-label="Facebook"
+              >
+                <Facebook className="h-5 w-5" />
+              </Link>
+              <Link
+                href="https://twitter.com/csgr_ia"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground transition-colors hover:text-primary"
+                aria-label="Twitter"
+              >
+                <Twitter className="h-5 w-5" />
+              </Link>
+              <Link
+                href="https://www.linkedin.com/company/csgr-ia"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground transition-colors hover:text-primary"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="h-5 w-5" />
+              </Link>
+              <Link
+                href="https://www.instagram.com/csgr_ia"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground transition-colors hover:text-primary"
+                aria-label="Instagram"
+              >
+                <Instagram className="h-5 w-5" />
+              </Link>
+              <Link
+                href="https://www.youtube.com/@csgr-ia"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground transition-colors hover:text-primary"
+                aria-label="YouTube"
+              >
+                <Youtube className="h-5 w-5" />
+              </Link>
+            </div>
           </div>
 
           <div>

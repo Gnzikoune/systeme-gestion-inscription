@@ -11,14 +11,15 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { getProgramByIdFromStorage } from "@/lib/storage/programs-storage"
 import type { Program } from "@/lib/data/programs"
-import { ArrowLeft, CreditCard, Loader2, CheckCircle } from "lucide-react"
+import { ArrowLeft, CreditCard, Loader2, CheckCircle, Smartphone } from "lucide-react"
+import Image from "next/image"
 
 export default function PaiementPage() {
   const router = useRouter()
   const params = useParams()
   const [program, setProgram] = useState<Program | null>(null)
   const [loading, setLoading] = useState(false)
-  const [paymentMethod, setPaymentMethod] = useState("singpay")
+  const [paymentMethod, setPaymentMethod] = useState("stripe")
   const [inscriptionData, setInscriptionData] = useState<any>(null)
 
   useEffect(() => {
@@ -97,36 +98,57 @@ export default function PaiementPage() {
                   <CardContent className="space-y-6">
                     <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod}>
                       <div className="flex items-center space-x-3 rounded-lg border border-border p-3 transition-colors hover:bg-muted/50 sm:p-4">
-                        <RadioGroupItem value="singpay" id="singpay" />
-                        <Label htmlFor="singpay" className="flex flex-1 cursor-pointer items-center gap-2 sm:gap-3">
-                          <CreditCard className="h-4 w-4 shrink-0 text-primary sm:h-5 sm:w-5" />
+                        <RadioGroupItem value="stripe" id="stripe" />
+                        <Label htmlFor="stripe" className="flex flex-1 cursor-pointer items-center gap-2 sm:gap-3">
+                          <div className="relative h-8 w-16 shrink-0 sm:h-10 sm:w-20">
+                            <Image
+                              src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/stripe.svg"
+                              alt="Stripe"
+                              fill
+                              className="object-contain"
+                              unoptimized
+                              onError={(e) => {
+                                // Fallback si l'image ne charge pas
+                                const parent = e.currentTarget.parentElement
+                                if (parent) {
+                                  parent.innerHTML = '<div class="flex h-full w-full items-center justify-center bg-[#635BFF] rounded"><span class="text-[10px] font-bold text-white sm:text-xs">STRIPE</span></div>'
+                                }
+                              }}
+                            />
+                          </div>
                           <div>
-                            <div className="text-xs sm:text-sm md:text-base font-medium">SingPay</div>
-                            <div className="text-xs sm:text-sm text-muted-foreground">Paiement mobile sécurisé</div>
+                            <div className="text-xs sm:text-sm md:text-base font-medium">Carte bancaire</div>
+                            <div className="text-xs sm:text-sm text-muted-foreground">Visa, Mastercard via Stripe</div>
                           </div>
                         </Label>
                       </div>
 
                       <div className="flex items-center space-x-3 rounded-lg border border-border p-3 transition-colors hover:bg-muted/50 sm:p-4">
-                        <RadioGroupItem value="flutterwave" id="flutterwave" />
-                        <Label htmlFor="flutterwave" className="flex flex-1 cursor-pointer items-center gap-2 sm:gap-3">
-                          <CreditCard className="h-4 w-4 shrink-0 text-accent sm:h-5 sm:w-5" />
-                          <div>
-                            <div className="text-xs sm:text-sm md:text-base font-medium">Flutterwave</div>
-                            <div className="text-xs sm:text-sm text-muted-foreground">Carte bancaire, Mobile Money</div>
-                          </div>
-                        </Label>
-                      </div>
-
-                      <div className="flex items-center space-x-3 rounded-lg border border-border p-3 transition-colors hover:bg-muted/50 sm:p-4">
-                        <RadioGroupItem value="paydunya" id="paydunya" />
-                        <Label htmlFor="paydunya" className="flex flex-1 cursor-pointer items-center gap-2 sm:gap-3">
-                          <CreditCard className="h-4 w-4 shrink-0 text-secondary sm:h-5 sm:w-5" />
-                          <div>
-                            <div className="text-xs sm:text-sm md:text-base font-medium">PayDunya</div>
-                            <div className="text-xs sm:text-sm text-muted-foreground">
-                              Orange Money, MTN Mobile Money
+                        <RadioGroupItem value="airtel_money" id="airtel_money" />
+                        <Label htmlFor="airtel_money" className="flex flex-1 cursor-pointer items-center gap-2 sm:gap-3">
+                          <div className="relative h-8 w-16 shrink-0 overflow-hidden rounded bg-[#E60012] sm:h-10 sm:w-20">
+                            <div className="flex h-full w-full items-center justify-center">
+                              <span className="text-[10px] font-bold text-white sm:text-xs">AIRTEL</span>
                             </div>
+                          </div>
+                          <div>
+                            <div className="text-xs sm:text-sm md:text-base font-medium">Airtel Money</div>
+                            <div className="text-xs sm:text-sm text-muted-foreground">Paiement mobile Airtel</div>
+                          </div>
+                        </Label>
+                      </div>
+
+                      <div className="flex items-center space-x-3 rounded-lg border border-border p-3 transition-colors hover:bg-muted/50 sm:p-4">
+                        <RadioGroupItem value="moov_money" id="moov_money" />
+                        <Label htmlFor="moov_money" className="flex flex-1 cursor-pointer items-center gap-2 sm:gap-3">
+                          <div className="relative h-8 w-16 shrink-0 overflow-hidden rounded bg-[#00A8E8] sm:h-10 sm:w-20">
+                            <div className="flex h-full w-full items-center justify-center">
+                              <span className="text-[10px] font-bold text-white sm:text-xs">MOOV</span>
+                            </div>
+                          </div>
+                          <div>
+                            <div className="text-xs sm:text-sm md:text-base font-medium">Moov Money</div>
+                            <div className="text-xs sm:text-sm text-muted-foreground">Paiement mobile Moov</div>
                           </div>
                         </Label>
                       </div>

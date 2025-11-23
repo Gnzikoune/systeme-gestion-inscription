@@ -1,7 +1,7 @@
 import type { StoredRegistration } from "@/lib/storage/local-storage"
 
 export type PaymentStatus = "en_attente" | "valide" | "echoue" | "rembourse"
-export type PaymentMethod = "singpay" | "flutterwave" | "paydunya" | "gratuit"
+export type PaymentMethod = "airtel_money" | "moov_money" | "stripe" | "gratuit"
 
 export interface Registration extends StoredRegistration {}
 

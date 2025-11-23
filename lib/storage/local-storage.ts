@@ -18,7 +18,7 @@ export interface StoredRegistration {
   date_inscription: string
   statut_paiement: "en_attente" | "valide" | "echoue" | "rembourse"
   montant: number
-  methode_paiement: "singpay" | "flutterwave" | "paydunya" | "gratuit"
+  methode_paiement: "airtel_money" | "moov_money" | "stripe" | "gratuit"
   numero_inscription: string
 }
 

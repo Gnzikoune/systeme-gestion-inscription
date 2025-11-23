@@ -135,12 +135,12 @@ export default function HomePage() {
                     if (!Icon) return null
                     return (
                       <div key={stat.id} className="text-center">
-                        <div className="mb-2 flex justify-center">
+                <div className="mb-2 flex justify-center">
                           <Icon className={`h-8 w-8 ${colorClass}`} />
-                        </div>
+                </div>
                         <div className="text-3xl font-bold text-foreground">{stat.value}</div>
                         <div className="text-sm text-muted-foreground">{stat.label}</div>
-                      </div>
+              </div>
                     )
                   })}
                 </div>

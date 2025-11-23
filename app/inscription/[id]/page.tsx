@@ -80,7 +80,7 @@ export default function InscriptionPage() {
       date_inscription: new Date().toISOString(),
       statut_paiement: program.gratuit ? ("gratuit" as const) : ("en_attente" as const),
       montant: program.prix,
-      methode_paiement: program.gratuit ? ("gratuit" as const) : ("singpay" as const),
+      methode_paiement: program.gratuit ? ("gratuit" as const) : ("stripe" as const),
       numero_inscription: generateRegistrationNumber(programPrefix),
     }
 
