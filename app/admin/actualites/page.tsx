@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Plus, Pencil, Trash2, Eye, EyeOff, ArrowUp, ArrowDown } from "lucide-react"
+import { Plus, Pencil, Trash2, Eye, EyeOff, ArrowUp, ArrowDown, Newspaper } from "lucide-react"
 import { getNewsFromStorage, updateNewsInStorage } from "@/lib/storage/news-storage"
 import type { News } from "@/lib/data/news"
 import { AddNewsDialog } from "@/components/admin/add-news-dialog"
@@ -69,8 +69,8 @@ export default function AdminActualitesPage() {
     <div className="min-h-screen p-3 sm:p-4 md:p-6 lg:p-8">
       <div className="mb-4 flex flex-col gap-3 sm:mb-6 sm:gap-4 md:mb-8 md:flex-row md:items-center md:justify-between">
         <div className="min-w-0 flex-1">
-          <h1 className="text-xl font-bold text-foreground sm:text-2xl md:text-3xl">Gestion des Actualités</h1>
-          <p className="mt-1.5 text-xs text-muted-foreground sm:mt-2 sm:text-sm md:text-base">
+          <h1 className="text-xl font-bold text-foreground sm:text-2xl md:text-2xl lg:text-2xl">Gestion des Actualités</h1>
+          <p className="mt-1.5 text-xs text-muted-foreground sm:mt-2 sm:text-sm md:text-sm lg:text-sm">
             Gérez les actualités affichées sur la page d'accueil du site
           </p>
         </div>
@@ -84,10 +84,16 @@ export default function AdminActualitesPage() {
       <div className="space-y-3 sm:space-y-4">
         {news.length === 0 ? (
           <Card>
-            <CardContent className="py-8 text-center sm:py-12">
-              <p className="text-xs text-muted-foreground sm:text-sm md:text-base">
-                Aucune actualité. Cliquez sur "Nouvelle actualité" pour commencer.
+            <CardContent className="py-12 text-center sm:py-16">
+              <Newspaper className="mx-auto mb-4 h-12 w-12 text-muted-foreground/50" />
+              <p className="text-sm font-medium text-foreground mb-1">Aucune actualité</p>
+              <p className="text-xs text-muted-foreground mb-4">
+                Commencez par créer votre première actualité.
               </p>
+              <Button onClick={() => setShowAddDialog(true)} size="sm">
+                <Plus className="mr-2 h-4 w-4" />
+                Créer une actualité
+              </Button>
             </CardContent>
           </Card>
         ) : (
@@ -97,7 +103,7 @@ export default function AdminActualitesPage() {
                 <div className="flex flex-col gap-3 sm:gap-4 md:flex-row md:items-start md:justify-between">
                   <div className="min-w-0 flex-1">
                     <div className="mb-2 flex flex-wrap items-center gap-1.5 sm:gap-2">
-                      <CardTitle className="break-words text-sm sm:text-base md:text-lg">{item.titre}</CardTitle>
+                      <CardTitle className="break-words text-sm sm:text-base md:text-base lg:text-base">{item.titre}</CardTitle>
                       {item.actif ? <Badge variant="default" className="text-xs">Actif</Badge> : <Badge variant="secondary" className="text-xs">Inactif</Badge>}
                       <Badge variant="outline" className="text-xs">
                         {item.type === "actualite" ? "Actualité" : item.type === "evenement" ? "Événement" : "Archive"}

@@ -4,11 +4,19 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
 import { formatPaymentStatus, getPaymentStatusColor, type Registration } from "@/lib/data/registrations"
 import { getProgramsFromStorage } from "@/lib/storage/programs-storage"
 import type { Program } from "@/lib/data/programs"
-import { Eye, Users, CheckCircle2, Clock, XCircle, Trash2 } from "lucide-react"
+import { Eye, Users, CheckCircle2, Clock, XCircle, Trash2, AlertTriangle } from "lucide-react"
 import { AdminFilters } from "@/components/admin/admin-filters"
 import { ExportButton } from "@/components/admin/export-button"
 import { AdminAuthNotice } from "@/components/admin/admin-auth-notice"
@@ -33,15 +41,16 @@ export default function AdminDashboardPage() {
     setLoading(false)
   }
 
+  const [showClearDialog, setShowClearDialog] = useState(false)
+
   const handleClearAllData = () => {
-    if (window.confirm("Êtes-vous sûr de vouloir supprimer toutes les inscriptions ? Cette action est irréversible.")) {
-      localStorage.removeItem("csgr_ia_registrations")
-      loadRegistrations()
-      toast({
-        title: "Données supprimées",
-        description: "Toutes les inscriptions ont été supprimées.",
-      })
-    }
+    localStorage.removeItem("csgr_ia_registrations")
+    loadRegistrations()
+    setShowClearDialog(false)
+    toast({
+      title: "Données supprimées",
+      description: "Toutes les inscriptions ont été supprimées.",
+    })
   }
 
   // Calculate statistics
@@ -53,7 +62,10 @@ export default function AdminDashboardPage() {
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <p className="text-muted-foreground">Chargement...</p>
+        <div className="text-center">
+          <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+          <p className="text-sm text-muted-foreground">Chargement des données...</p>
+        </div>
       </div>
     )
   }
@@ -62,8 +74,8 @@ export default function AdminDashboardPage() {
     <div className="min-h-screen p-3 sm:p-4 md:p-6 lg:p-8">
       {/* Header */}
       <div className="mb-4 sm:mb-6 md:mb-8">
-        <h1 className="mb-2 text-xl font-bold text-foreground sm:text-2xl md:text-3xl">Tableau de Bord</h1>
-        <p className="text-xs text-muted-foreground sm:text-sm md:text-base">Gestion des inscriptions aux programmes CSGR-IA</p>
+        <h1 className="mb-2 text-xl font-bold text-foreground sm:text-2xl md:text-2xl lg:text-2xl">Tableau de Bord</h1>
+        <p className="text-xs text-muted-foreground sm:text-sm md:text-sm lg:text-sm">Gestion des inscriptions aux programmes CSGR-IA</p>
       </div>
 
       {/* Authentication Notice */}
@@ -77,7 +89,7 @@ export default function AdminDashboardPage() {
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-foreground">{totalRegistrations}</div>
+            <div className="text-xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-foreground">{totalRegistrations}</div>
             <p className="text-xs text-muted-foreground">Toutes programmes confondus</p>
           </CardContent>
         </Card>
@@ -88,7 +100,7 @@ export default function AdminDashboardPage() {
             <CheckCircle2 className="h-4 w-4 text-green-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-foreground">{validatedPayments}</div>
+            <div className="text-xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-foreground">{validatedPayments}</div>
             <p className="text-xs text-muted-foreground">
               {totalRegistrations > 0 ? ((validatedPayments / totalRegistrations) * 100).toFixed(0) : 0}% du total
             </p>
@@ -101,7 +113,7 @@ export default function AdminDashboardPage() {
             <Clock className="h-4 w-4 text-yellow-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-foreground">{pendingPayments}</div>
+            <div className="text-xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-foreground">{pendingPayments}</div>
             <p className="text-xs text-muted-foreground">Paiements à valider</p>
           </CardContent>
         </Card>
@@ -112,7 +124,7 @@ export default function AdminDashboardPage() {
             <XCircle className="h-4 w-4 text-red-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-foreground">{failedPayments}</div>
+            <div className="text-xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-foreground">{failedPayments}</div>
             <p className="text-xs text-muted-foreground">À recontacter</p>
           </CardContent>
         </Card>
@@ -123,12 +135,12 @@ export default function AdminDashboardPage() {
         <CardHeader className="pb-3 sm:pb-6">
           <div className="flex flex-col gap-3 sm:gap-4 md:flex-row md:items-center md:justify-between">
             <div className="min-w-0">
-              <CardTitle className="text-base sm:text-lg md:text-xl">Liste des Inscrits</CardTitle>
+              <CardTitle className="text-base sm:text-lg md:text-lg lg:text-lg">Liste des Inscrits</CardTitle>
               <CardDescription className="text-xs sm:text-sm">Filtrez et exportez les données d'inscription</CardDescription>
             </div>
             <div className="flex flex-wrap gap-2 sm:shrink-0">
               <ExportButton registrations={registrations} />
-              <Button variant="destructive" onClick={handleClearAllData} size="sm" className="sm:size-default">
+              <Button variant="destructive" onClick={() => setShowClearDialog(true)} size="sm" className="sm:size-default">
                 <Trash2 className="mr-2 h-4 w-4" />
                 <span className="hidden sm:inline">Vider les données</span>
                 <span className="sm:hidden">Vider</span>
@@ -145,8 +157,12 @@ export default function AdminDashboardPage() {
       <Card>
         <CardContent className="p-0">
           {registrations.length === 0 ? (
-            <div className="px-4 py-8 text-center text-sm text-muted-foreground">
-              Aucune inscription trouvée
+            <div className="px-4 py-12 sm:py-16 text-center">
+              <Users className="mx-auto mb-4 h-12 w-12 text-muted-foreground/50" />
+              <p className="text-sm font-medium text-foreground mb-1">Aucune inscription trouvée</p>
+              <p className="text-xs text-muted-foreground">
+                Les inscriptions apparaîtront ici une fois que les utilisateurs commenceront à s'inscrire aux programmes.
+              </p>
             </div>
           ) : (
             <>
@@ -317,6 +333,43 @@ export default function AdminDashboardPage() {
           )}
         </CardContent>
       </Card>
+
+      {/* Clear All Data Dialog */}
+      <Dialog open={showClearDialog} onOpenChange={setShowClearDialog}>
+        <DialogContent className="w-[95vw] sm:max-w-[425px] sm:w-full">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-base sm:text-lg">
+              <AlertTriangle className="h-5 w-5 text-destructive" />
+              Confirmer la suppression
+            </DialogTitle>
+            <DialogDescription className="text-xs sm:text-sm">
+              Êtes-vous sûr de vouloir supprimer toutes les inscriptions ? Cette action est irréversible et ne peut pas être annulée.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="rounded-lg bg-destructive/10 border border-destructive/20 p-4">
+            <div className="flex items-start gap-3">
+              <AlertTriangle className="h-5 w-5 text-destructive shrink-0 mt-0.5" />
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-foreground">
+                  {registrations.length} inscription{registrations.length > 1 ? "s" : ""} sera{registrations.length > 1 ? "ont" : ""} supprimée{registrations.length > 1 ? "s" : ""}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Toutes les données d'inscription seront définitivement perdues.
+                </p>
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowClearDialog(false)}>
+              Annuler
+            </Button>
+            <Button variant="destructive" onClick={handleClearAllData}>
+              <Trash2 className="mr-2 h-4 w-4" />
+              Supprimer définitivement
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

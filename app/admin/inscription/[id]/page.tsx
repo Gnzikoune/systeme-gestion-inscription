@@ -131,7 +131,7 @@ export default function RegistrationDetailPage() {
             <CardHeader className="pb-3 sm:pb-6">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
                 <div className="min-w-0 flex-1">
-                  <CardTitle className="mb-1.5 sm:mb-2 text-lg sm:text-xl md:text-2xl break-words">
+                  <CardTitle className="mb-1.5 sm:mb-2 text-lg sm:text-xl md:text-xl lg:text-xl break-words">
                     {registration.nom} {registration.prenom}
                   </CardTitle>
                   <CardDescription className="text-xs sm:text-sm md:text-base break-all">{registration.numero_inscription}</CardDescription>
@@ -148,7 +148,7 @@ export default function RegistrationDetailPage() {
 
           <Card className="mb-3 sm:mb-4 md:mb-6">
             <CardHeader className="pb-3 sm:pb-6">
-              <CardTitle className="text-base sm:text-lg md:text-xl">Actions Administrateur</CardTitle>
+              <CardTitle className="text-base sm:text-lg md:text-lg lg:text-lg">Actions Administrateur</CardTitle>
               <CardDescription className="text-xs sm:text-sm">Gérer cette inscription</CardDescription>
             </CardHeader>
             <CardContent>
@@ -171,10 +171,10 @@ export default function RegistrationDetailPage() {
           {/* Programme Information */}
           <Card className="mb-3 sm:mb-4 md:mb-6">
             <CardHeader className="pb-3 sm:pb-6">
-              <CardTitle className="text-base sm:text-lg md:text-xl">Programme</CardTitle>
+              <CardTitle className="text-base sm:text-lg md:text-lg lg:text-lg">Programme</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex items-center gap-2 text-sm font-medium text-foreground sm:text-base md:text-lg">
+              <div className="flex items-center gap-2 text-sm font-medium text-foreground sm:text-base md:text-base lg:text-base">
                 <GraduationCap className="h-4 w-4 sm:h-5 sm:w-5 shrink-0 text-primary" />
                 <span className="break-words">{registration.programme_nom}</span>
               </div>
@@ -184,7 +184,7 @@ export default function RegistrationDetailPage() {
           {/* Personal Information - improved responsive grid */}
           <Card className="mb-3 sm:mb-4 md:mb-6">
             <CardHeader className="pb-3 sm:pb-6">
-              <CardTitle className="text-base sm:text-lg md:text-xl">Informations Personnelles</CardTitle>
+              <CardTitle className="text-base sm:text-lg md:text-lg lg:text-lg">Informations Personnelles</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3 sm:space-y-4">
               <div className="grid gap-3 sm:gap-4 sm:grid-cols-2">
@@ -238,7 +238,7 @@ export default function RegistrationDetailPage() {
           {/* Motivation */}
           <Card className="mb-3 sm:mb-4 md:mb-6">
             <CardHeader className="pb-3 sm:pb-6">
-              <CardTitle className="text-base sm:text-lg md:text-xl">Motivation</CardTitle>
+              <CardTitle className="text-base sm:text-lg md:text-lg lg:text-lg">Motivation</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex items-start gap-2 sm:gap-3">
@@ -251,7 +251,7 @@ export default function RegistrationDetailPage() {
           {/* Payment Information - improved responsive grid */}
           <Card>
             <CardHeader className="pb-3 sm:pb-6">
-              <CardTitle className="text-base sm:text-lg md:text-xl">Informations de Paiement</CardTitle>
+              <CardTitle className="text-base sm:text-lg md:text-lg lg:text-lg">Informations de Paiement</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3 sm:space-y-4">
               <div className="grid gap-3 sm:gap-4 sm:grid-cols-2">
@@ -281,7 +281,7 @@ export default function RegistrationDetailPage() {
 
               <div className="flex items-center justify-between rounded-lg bg-muted/50 p-3 sm:p-4">
                 <div className="text-xs sm:text-sm font-medium text-muted-foreground">Montant</div>
-                <div className="text-lg sm:text-xl md:text-2xl font-bold text-foreground">
+                <div className="text-lg sm:text-xl md:text-xl lg:text-xl font-bold text-foreground">
                   {registration.montant === 0 ? "Gratuit" : `${registration.montant.toLocaleString()} FCFA`}
                 </div>
               </div>

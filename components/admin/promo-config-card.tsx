@@ -71,7 +71,7 @@ export function PromoConfigCard() {
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2 min-w-0 flex-1">
             <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-primary shrink-0" />
-            <CardTitle className="text-base sm:text-lg md:text-xl break-words">Configuration du Popup Publicitaire</CardTitle>
+            <CardTitle className="text-base sm:text-lg md:text-lg lg:text-lg break-words">Configuration du Popup Publicitaire</CardTitle>
           </div>
           <Badge variant={config.enabled ? "default" : "secondary"} className="w-fit shrink-0 text-xs sm:text-sm">
             {config.enabled ? "Activé" : "Désactivé"}
@@ -85,7 +85,7 @@ export function PromoConfigCard() {
         {/* Activation du popup */}
         <div className="flex flex-col gap-3 rounded-lg border p-3 sm:p-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-0.5 min-w-0 flex-1">
-            <Label htmlFor="enabled" className="text-xs sm:text-sm md:text-base font-medium">
+            <Label htmlFor="enabled" className="text-xs sm:text-sm md:text-sm lg:text-sm font-medium">
               Activer le popup publicitaire
             </Label>
             <p className="text-xs sm:text-sm text-muted-foreground">
@@ -117,7 +117,7 @@ export function PromoConfigCard() {
           </Select>
           {selectedProgram && (
             <div className="rounded-lg border bg-muted/50 p-3 sm:p-4">
-              <div className="font-medium text-xs sm:text-sm md:text-base break-words">{selectedProgram.nom}</div>
+              <div className="font-medium text-xs sm:text-sm md:text-sm lg:text-sm break-words">{selectedProgram.nom}</div>
               <div className="text-muted-foreground mt-1 text-xs sm:text-sm break-words">{selectedProgram.description_courte}</div>
               <div className="mt-2 sm:mt-3 flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-2 sm:gap-3 md:gap-4 text-xs sm:text-sm">
                 <span className="text-muted-foreground">Début: <span className="font-medium text-foreground">{selectedProgram.date_debut}</span></span>

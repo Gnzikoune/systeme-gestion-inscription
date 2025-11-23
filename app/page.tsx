@@ -65,17 +65,17 @@ export default function HomePage() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-primary via-accent to-secondary py-12 sm:py-16 md:py-20 text-primary-foreground">
+        <section className="relative overflow-hidden bg-gradient-to-br from-primary via-accent to-secondary py-10 sm:py-12 md:py-16 text-primary-foreground">
           <div className="absolute inset-0 bg-[url('/abstract-circuit-pattern.png')] opacity-10" />
           <div className="container relative mx-auto px-4">
             <div className="mx-auto max-w-4xl text-center">
               <Badge className="mb-4 bg-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/30">
                 Innovation · Recherche · Excellence
               </Badge>
-              <h1 className="mb-4 sm:mb-6 text-balance text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight">
+              <h1 className="mb-3 sm:mb-4 text-balance text-xl sm:text-2xl md:text-2xl lg:text-3xl xl:text-3xl font-bold leading-tight">
                 Comité Scientifique Gabonais de Recherche sur l'Intelligence Artificielle
               </h1>
-              <p className="mb-6 sm:mb-8 text-pretty text-sm sm:text-base md:text-lg lg:text-xl text-primary-foreground/90 leading-relaxed">
+              <p className="mb-5 sm:mb-6 text-pretty text-xs sm:text-sm md:text-sm lg:text-base text-primary-foreground/90 leading-relaxed">
                 Structurer, vulgariser et promouvoir la recherche en IA au Gabon pour accélérer le développement
                 numérique et scientifique du pays
               </p>
@@ -119,10 +119,10 @@ export default function HomePage() {
                     return (
                       <div key={stat.id} className="text-center min-w-[160px] sm:min-w-[200px] md:min-w-[220px] flex-shrink-0 snap-start">
                         <div className="mb-1.5 sm:mb-2 flex justify-center">
-                          <Icon className={`h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 ${colorClass}`} />
+                          <Icon className={`h-5 w-5 sm:h-5 sm:w-5 md:h-6 md:w-6 ${colorClass}`} />
                         </div>
-                        <div className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground">{stat.value}</div>
-                        <div className="text-xs sm:text-sm text-muted-foreground">{stat.label}</div>
+                        <div className="text-lg sm:text-xl md:text-xl lg:text-xl font-bold text-foreground">{stat.value}</div>
+                        <div className="text-xs sm:text-xs text-muted-foreground">{stat.label}</div>
                       </div>
                     )
                   })}
@@ -136,10 +136,10 @@ export default function HomePage() {
                     return (
                       <div key={stat.id} className="text-center">
                 <div className="mb-2 flex justify-center">
-                          <Icon className={`h-8 w-8 ${colorClass}`} />
+                          <Icon className={`h-6 w-6 ${colorClass}`} />
                 </div>
-                        <div className="text-3xl font-bold text-foreground">{stat.value}</div>
-                        <div className="text-sm text-muted-foreground">{stat.label}</div>
+                        <div className="text-xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-foreground">{stat.value}</div>
+                        <div className="text-xs sm:text-sm text-muted-foreground">{stat.label}</div>
               </div>
                     )
                   })}
@@ -150,60 +150,60 @@ export default function HomePage() {
         </section>
 
         {/* About Section */}
-        <section id="a-propos" className="py-12 sm:py-16 md:py-20">
+        <section id="a-propos" className="py-8 sm:py-12 md:py-16">
           <div className="container mx-auto px-4">
             <div className="mx-auto max-w-4xl">
-              <div className="mb-8 sm:mb-10 md:mb-12 text-center">
-                <h2 className="mb-3 sm:mb-4 text-balance text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">Notre Mission</h2>
-                <p className="text-pretty text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
+              <div className="mb-6 sm:mb-8 md:mb-10 text-center">
+                <h2 className="mb-2 sm:mb-3 text-balance text-xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-foreground">Notre Mission</h2>
+                <p className="text-pretty text-xs sm:text-sm md:text-sm lg:text-base text-muted-foreground leading-relaxed">
                   Le CSGR-IA est au cœur des initiatives de structuration, vulgarisation et promotion de la recherche en
                   IA au Gabon
                 </p>
               </div>
 
-              <div className="grid gap-8 md:grid-cols-2">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-base sm:text-lg md:text-xl">Structuration & Encadrement</CardTitle>
+              <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
+                <Card className="shadow-sm hover:shadow-md transition-shadow">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-sm sm:text-base md:text-base">Structuration & Encadrement</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-xs sm:text-sm md:text-base text-muted-foreground leading-relaxed">
+                    <p className="text-xs sm:text-xs md:text-sm text-muted-foreground leading-relaxed">
                       Structurer et encadrer la recherche scientifique et technologique en IA au Gabon en mobilisant
                       ministères, universités et partenaires internationaux.
                     </p>
                   </CardContent>
                 </Card>
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-base sm:text-lg md:text-xl">Innovation & Éthique</CardTitle>
+                <Card className="shadow-sm hover:shadow-md transition-shadow">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-sm sm:text-base md:text-base">Innovation & Éthique</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-xs sm:text-sm md:text-base text-muted-foreground leading-relaxed">
+                    <p className="text-xs sm:text-xs md:text-sm text-muted-foreground leading-relaxed">
                       Promouvoir l'innovation et l'usage éthique de l'IA selon les standards de l'UNESCO et de l'Union
                       internationale des télécommunications.
                     </p>
                   </CardContent>
                 </Card>
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-base sm:text-lg md:text-xl">Inclusion & Formation</CardTitle>
+                <Card className="shadow-sm hover:shadow-md transition-shadow">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-sm sm:text-base md:text-base">Inclusion & Formation</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-xs sm:text-sm md:text-base text-muted-foreground leading-relaxed">
+                    <p className="text-xs sm:text-xs md:text-sm text-muted-foreground leading-relaxed">
                       Favoriser l'inclusion, la formation et l'employabilité par le numérique et l'IA dans les secteurs
                       santé, éducation, industrie et culture.
                     </p>
                   </CardContent>
                 </Card>
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-base sm:text-lg md:text-xl">Collaboration Internationale</CardTitle>
+                <Card className="shadow-sm hover:shadow-md transition-shadow">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-sm sm:text-base md:text-base">Collaboration Internationale</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-xs sm:text-sm md:text-base text-muted-foreground leading-relaxed">
+                    <p className="text-xs sm:text-xs md:text-sm text-muted-foreground leading-relaxed">
                       Collaboration étroite avec le Centre Gabonais de l'Innovation (CGI), classé parmi les 17 centres
                       UIT mondiaux pour l'accélération en IA.
                     </p>
@@ -215,21 +215,21 @@ export default function HomePage() {
         </section>
 
         {/* Programs Section */}
-        <section id="programmes" className="bg-muted/30 py-12 sm:py-16 md:py-20">
+        <section id="programmes" className="bg-muted/30 py-8 sm:py-12 md:py-16">
           <div className="container mx-auto px-4">
-            <div className="mb-8 sm:mb-10 md:mb-12 text-center">
-              <h2 className="mb-3 sm:mb-4 text-balance text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">
+            <div className="mb-6 sm:mb-8 md:mb-10 text-center">
+              <h2 className="mb-2 sm:mb-3 text-balance text-xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-foreground">
                 Nos Programmes de Formation
               </h2>
-              <p className="text-pretty text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
+              <p className="text-pretty text-xs sm:text-sm md:text-sm lg:text-base text-muted-foreground leading-relaxed">
                 Découvrez nos programmes de formation et recherche en Intelligence Artificielle
               </p>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
               {programs.map((program) => (
-                <Card key={program.id} className="flex flex-col transition-shadow hover:shadow-lg">
-                  <div className="relative h-48 w-full overflow-hidden rounded-t-lg bg-muted">
+                <Card key={program.id} className="flex flex-col transition-all hover:shadow-md border-border/50">
+                  <div className="relative h-40 sm:h-44 w-full overflow-hidden rounded-t-lg bg-muted">
                     <Image src={program.image || "/placeholder.svg"} alt={program.nom} fill className="object-cover" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
                   </div>
                   <CardHeader>
@@ -244,8 +244,8 @@ export default function HomePage() {
                         {program.duree}
                       </div>
                     </div>
-                    <CardTitle className="text-base sm:text-lg md:text-xl text-balance leading-tight">{program.nom}</CardTitle>
-                    <CardDescription className="text-xs sm:text-sm md:text-base text-pretty leading-relaxed">
+                    <CardTitle className="text-sm sm:text-base md:text-base text-balance leading-tight">{program.nom}</CardTitle>
+                    <CardDescription className="text-xs sm:text-xs md:text-sm text-pretty leading-relaxed">
                       {program.description_courte}
                     </CardDescription>
                   </CardHeader>
@@ -270,18 +270,18 @@ export default function HomePage() {
         </section>
 
         {/* Actualités Section */}
-        <section id="actualites" className="bg-gradient-to-br from-muted/30 to-muted/50 py-12 sm:py-16 md:py-20">
+        <section id="actualites" className="bg-gradient-to-br from-muted/30 to-muted/50 py-8 sm:py-12 md:py-16">
           <div className="container mx-auto px-4">
-            <div className="mb-8 sm:mb-10 md:mb-12 text-center">
-              <Badge className="mb-3 sm:mb-4 text-xs sm:text-sm bg-primary/10 text-primary hover:bg-primary/20">Actualités & Événements</Badge>
-              <h2 className="mb-3 sm:mb-4 text-balance text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">Actualités 2025</h2>
-              <p className="text-pretty text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
+            <div className="mb-6 sm:mb-8 md:mb-10 text-center">
+              <Badge className="mb-2 sm:mb-3 text-xs bg-primary/10 text-primary hover:bg-primary/20">Actualités & Événements</Badge>
+              <h2 className="mb-2 sm:mb-3 text-balance text-xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-foreground">Actualités 2025</h2>
+              <p className="text-pretty text-xs sm:text-sm md:text-sm lg:text-base text-muted-foreground leading-relaxed">
                 Restez informé de nos dernières actualités et événements à venir
               </p>
             </div>
 
             <Tabs defaultValue="recent" className="mx-auto max-w-6xl">
-              <TabsList className="grid w-full grid-cols-3 mb-8">
+              <TabsList className="grid w-full grid-cols-3 mb-6">
                 <TabsTrigger value="recent" className="flex items-center gap-2">
                   <Newspaper className="h-4 w-4" />
                   <span className="hidden sm:inline">Récentes</span>
@@ -309,11 +309,11 @@ export default function HomePage() {
                     </CardContent>
                   </Card>
                 ) : (
-                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
                     {recentNews.map((item) => (
-                      <Card key={item.id} className="group overflow-hidden transition-all hover:shadow-xl">
+                      <Card key={item.id} className="group overflow-hidden transition-all hover:shadow-md border-border/50">
                         {item.image && (
-                          <div className="relative h-48 w-full overflow-hidden bg-muted">
+                          <div className="relative h-40 sm:h-44 w-full overflow-hidden bg-muted">
                             <Image
                               src={item.image || "/placeholder.svg"}
                               alt={item.titre}
@@ -333,12 +333,12 @@ export default function HomePage() {
                             <Calendar className="h-3 w-3" />
                             {item.date} · {item.lieu}
                           </div>
-                          <CardTitle className="text-base sm:text-lg md:text-xl text-balance leading-tight line-clamp-2">
+                          <CardTitle className="text-sm sm:text-base md:text-base text-balance leading-tight line-clamp-2">
                             {item.titre}
                           </CardTitle>
                         </CardHeader>
                         <CardContent>
-                          <p className="text-xs sm:text-sm md:text-base leading-relaxed text-muted-foreground line-clamp-3">
+                          <p className="text-xs sm:text-xs md:text-sm leading-relaxed text-muted-foreground line-clamp-3">
                             {item.description}
                           </p>
                         </CardContent>
@@ -366,12 +366,12 @@ export default function HomePage() {
                     </CardContent>
                   </Card>
                 ) : (
-                  <div className="grid gap-6 md:grid-cols-2">
+                  <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
                     {evenements.map((item) => (
-                      <Card key={item.id} className="group overflow-hidden transition-all hover:shadow-xl">
+                      <Card key={item.id} className="group overflow-hidden transition-all hover:shadow-md border-border/50">
                         <div className="flex flex-col md:flex-row">
                           {item.image && (
-                            <div className="relative h-48 w-full md:h-auto md:w-48 flex-shrink-0 overflow-hidden bg-muted">
+                            <div className="relative h-40 sm:h-44 w-full md:h-auto md:w-40 flex-shrink-0 overflow-hidden bg-muted">
                               <Image
                                 src={item.image || "/placeholder.svg"}
                                 alt={item.titre}
@@ -389,8 +389,8 @@ export default function HomePage() {
                                   Événement
                                 </Badge>
                               </div>
-                              <CardTitle className="text-base sm:text-lg md:text-xl text-balance leading-tight">{item.titre}</CardTitle>
-                              <CardDescription className="text-xs sm:text-sm md:text-base flex items-center gap-2">
+                              <CardTitle className="text-sm sm:text-base md:text-base text-balance leading-tight">{item.titre}</CardTitle>
+                              <CardDescription className="text-xs sm:text-xs md:text-sm flex items-center gap-2">
                                 <Calendar className="h-3 w-3" />
                                 {item.date} · {item.lieu}
                               </CardDescription>
@@ -448,7 +448,7 @@ export default function HomePage() {
                                 <Calendar className="h-3 w-3" />
                                 {item.date} · {item.lieu}
                               </div>
-                              <h3 className="mb-2 text-base sm:text-lg md:text-xl text-balance font-semibold leading-tight">{item.titre}</h3>
+                              <h3 className="mb-2 text-sm sm:text-base md:text-base text-balance font-semibold leading-tight">{item.titre}</h3>
                               <p className="text-xs sm:text-sm md:text-base text-muted-foreground line-clamp-2">{item.description}</p>
                             </div>
                             <Button
