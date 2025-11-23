@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { ScrollToTop } from "@/components/scroll-to-top"
 import { ScrollToSection } from "@/components/scroll-to-section"
 import { PromoPopup } from "@/components/promo-popup"
+import { AuthProvider } from "@/contexts/auth-context"
 import "./globals.css"
 
 const _geist = Geist({ subsets: ["latin"] })
@@ -42,12 +43,14 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={`font-sans antialiased`}>
-        <ScrollToTop />
-        <ScrollToSection />
-        {children}
-        <PromoPopup />
-        <Toaster />
-        <Analytics />
+        <AuthProvider>
+          <ScrollToTop />
+          <ScrollToSection />
+          {children}
+          <PromoPopup />
+          <Toaster />
+          <Analytics />
+        </AuthProvider>
       </body>
     </html>
   )

@@ -2,48 +2,65 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { Menu, X, Users, Newspaper, Settings, LayoutDashboard, GraduationCap, BarChart3, Megaphone } from "lucide-react"
+import { usePathname, useRouter } from "next/navigation"
+import { Menu, X, Users, Newspaper, Settings, LayoutDashboard, GraduationCap, BarChart3, Megaphone, LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
+import { useAuth } from "@/contexts/auth-context"
+import { usePermissions } from "@/hooks/use-permissions"
 
-const sidebarLinks = [
+const getSidebarLinks = (can: (permission: string) => boolean) => [
   {
     href: "/admin",
     label: "Inscriptions",
     icon: Users,
+    permission: "view:inscriptions",
   },
   {
     href: "/admin/programmes",
     label: "Programmes",
     icon: GraduationCap,
+    permission: "view:programmes",
   },
   {
     href: "/admin/actualites",
     label: "Actualités",
     icon: Newspaper,
+    permission: "view:actualites",
   },
   {
     href: "/admin/statistiques",
     label: "Statistiques",
     icon: BarChart3,
+    permission: "view:statistiques",
   },
   {
     href: "/admin/cta",
     label: "Section CTA",
     icon: Megaphone,
+    permission: "view:cta",
   },
   {
     href: "/admin/parametres",
     label: "Paramètres",
     icon: Settings,
+    permission: "view:parametres",
   },
-]
+].filter((link) => can(link.permission))
 
 export function AdminMobileNav() {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
+  const { user, signOut } = useAuth()
+  const router = useRouter()
+  const { can } = usePermissions()
+
+  const handleSignOut = async () => {
+    setIsOpen(false)
+    await signOut()
+    router.push("/admin/login")
+  }
 
   return (
     <>
@@ -70,7 +87,7 @@ export function AdminMobileNav() {
           />
           <aside className="fixed left-0 top-[65px] z-50 h-[calc(100vh-65px)] w-64 max-w-[85vw] border-r border-border bg-card shadow-lg lg:hidden">
             <nav className="space-y-1 p-4 overflow-y-auto h-full">
-              {sidebarLinks.map((link) => {
+              {getSidebarLinks(can).map((link) => {
                 const Icon = link.icon
                 const isActive = pathname === link.href || (link.href !== "/admin" && pathname?.startsWith(link.href))
 
@@ -99,6 +116,22 @@ export function AdminMobileNav() {
                 <LayoutDashboard className="h-5 w-5 shrink-0" />
                 Retour au site
               </Link>
+              {user && (
+                <div className="border-t border-border pt-2 mt-2">
+                  <div className="px-3 py-2 mb-2">
+                    <p className="text-xs font-medium text-foreground truncate">{user.displayName || user.email}</p>
+                    <p className="text-[10px] text-muted-foreground capitalize">{user.role || "viewer"}</p>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    onClick={handleSignOut}
+                    className="w-full justify-start text-sm text-muted-foreground hover:text-foreground"
+                  >
+                    <LogOut className="mr-2 h-4 w-4 shrink-0" />
+                    Déconnexion
+                  </Button>
+                </div>
+              )}
             </nav>
           </aside>
         </>

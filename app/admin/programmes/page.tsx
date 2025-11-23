@@ -11,6 +11,7 @@ import { AddProgramDialog } from "@/components/admin/add-program-dialog"
 import { EditProgramDialog } from "@/components/admin/edit-program-dialog"
 import { DeleteProgramDialog } from "@/components/admin/delete-program-dialog"
 import { useToast } from "@/hooks/use-toast"
+import { usePermissions } from "@/hooks/use-permissions"
 
 export default function AdminProgrammesPage() {
   const [programs, setPrograms] = useState<Program[]>([])
@@ -18,6 +19,7 @@ export default function AdminProgrammesPage() {
   const [editingProgram, setEditingProgram] = useState<Program | null>(null)
   const [deletingProgram, setDeletingProgram] = useState<Program | null>(null)
   const { toast } = useToast()
+  const { can } = usePermissions()
 
   useEffect(() => {
     loadPrograms()
@@ -71,11 +73,13 @@ export default function AdminProgrammesPage() {
             Gérez les programmes de formation affichés sur le site
           </p>
         </div>
-        <Button onClick={() => setShowAddDialog(true)} size="sm" className="w-full shrink-0 sm:w-auto sm:size-default">
-          <Plus className="mr-2 h-4 w-4" />
-          <span className="hidden sm:inline">Nouveau programme</span>
-          <span className="sm:hidden">Nouveau</span>
-        </Button>
+        {can("create:programmes") && (
+          <Button onClick={() => setShowAddDialog(true)} size="sm" className="w-full shrink-0 sm:w-auto sm:size-default">
+            <Plus className="mr-2 h-4 w-4" />
+            <span className="hidden sm:inline">Nouveau programme</span>
+            <span className="sm:hidden">Nouveau</span>
+          </Button>
+        )}
       </div>
 
       <div className="space-y-3 sm:space-y-4">
@@ -87,10 +91,12 @@ export default function AdminProgrammesPage() {
               <p className="text-xs text-muted-foreground mb-4">
                 Commencez par créer votre premier programme de formation.
               </p>
-              <Button onClick={() => setShowAddDialog(true)} size="sm">
-                <Plus className="mr-2 h-4 w-4" />
-                Créer un programme
-              </Button>
+              {can("create:programmes") && (
+                <Button onClick={() => setShowAddDialog(true)} size="sm">
+                  <Plus className="mr-2 h-4 w-4" />
+                  Créer un programme
+                </Button>
+              )}
             </CardContent>
           </Card>
         ) : (
@@ -117,44 +123,52 @@ export default function AdminProgrammesPage() {
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-1.5 sm:gap-2 shrink-0">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleMoveUp(program)}
-                      disabled={index === 0}
-                      title="Monter"
-                      className="h-8 w-8 p-0 sm:h-9 sm:w-9"
-                    >
-                      <ArrowUp className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleMoveDown(program)}
-                      disabled={index === programs.length - 1}
-                      title="Descendre"
-                      className="h-8 w-8 p-0 sm:h-9 sm:w-9"
-                    >
-                      <ArrowDown className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setEditingProgram(program)}
-                      title="Modifier"
-                      className="h-8 w-8 p-0 sm:h-9 sm:w-9"
-                    >
-                      <Pencil className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setDeletingProgram(program)}
-                      className="h-8 w-8 p-0 text-destructive hover:bg-destructive hover:text-destructive-foreground sm:h-9 sm:w-9"
-                      title="Supprimer"
-                    >
-                      <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                    </Button>
+                    {can("reorder:programmes") && (
+                      <>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleMoveUp(program)}
+                          disabled={index === 0}
+                          title="Monter"
+                          className="h-8 w-8 p-0 sm:h-9 sm:w-9"
+                        >
+                          <ArrowUp className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleMoveDown(program)}
+                          disabled={index === programs.length - 1}
+                          title="Descendre"
+                          className="h-8 w-8 p-0 sm:h-9 sm:w-9"
+                        >
+                          <ArrowDown className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                        </Button>
+                      </>
+                    )}
+                    {can("edit:programmes") && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setEditingProgram(program)}
+                        title="Modifier"
+                        className="h-8 w-8 p-0 sm:h-9 sm:w-9"
+                      >
+                        <Pencil className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                      </Button>
+                    )}
+                    {can("delete:programmes") && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setDeletingProgram(program)}
+                        className="h-8 w-8 p-0 text-destructive hover:bg-destructive hover:text-destructive-foreground sm:h-9 sm:w-9"
+                        title="Supprimer"
+                      >
+                        <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                      </Button>
+                    )}
                   </div>
                 </div>
               </CardHeader>

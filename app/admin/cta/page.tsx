@@ -11,6 +11,7 @@ import { Save, Eye, EyeOff } from "lucide-react"
 import { getCTAFromStorage, updateCTAInStorage } from "@/lib/storage/cta-storage"
 import type { CTA } from "@/lib/data/cta"
 import { useToast } from "@/hooks/use-toast"
+import { usePermissions } from "@/hooks/use-permissions"
 import { ImageUpload } from "@/components/admin/image-upload"
 import Image from "next/image"
 
@@ -18,6 +19,7 @@ export default function AdminCTAPage() {
   const [cta, setCTA] = useState<CTA | null>(null)
   const [formData, setFormData] = useState<Partial<CTA>>({})
   const { toast } = useToast()
+  const { can } = usePermissions()
 
   useEffect(() => {
     loadCTA()
@@ -101,85 +103,93 @@ export default function AdminCTAPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3 sm:space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="actif" className="text-xs sm:text-sm">
-                Statut
-              </Label>
-              <div className="flex items-center gap-3">
-                <Switch
-                  id="actif"
-                  checked={formData.actif ?? true}
-                  onCheckedChange={handleToggleActive}
-                />
-                <span className="text-xs sm:text-sm text-muted-foreground break-words">
-                  {formData.actif ? "Section visible sur la page d'accueil" : "Section masquée"}
-                </span>
+            {can("edit:cta") ? (
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="actif" className="text-xs sm:text-sm">
+                    Statut
+                  </Label>
+                  <div className="flex items-center gap-3">
+                    <Switch
+                      id="actif"
+                      checked={formData.actif ?? true}
+                      onCheckedChange={handleToggleActive}
+                    />
+                    <span className="text-xs sm:text-sm text-muted-foreground break-words">
+                      {formData.actif ? "Section visible sur la page d'accueil" : "Section masquée"}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="titre" className="text-xs sm:text-sm">
+                    Titre
+                  </Label>
+                  <Input
+                    id="titre"
+                    value={formData.titre || ""}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, titre: e.target.value }))}
+                    placeholder="Titre de la section CTA"
+                    className="text-xs sm:text-sm"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="description" className="text-xs sm:text-sm">
+                    Description
+                  </Label>
+                  <Textarea
+                    id="description"
+                    value={formData.description || ""}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
+                    placeholder="Description de la section CTA"
+                    rows={4}
+                    className="text-xs sm:text-sm"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="texte_bouton" className="text-xs sm:text-sm">
+                    Texte du bouton
+                  </Label>
+                  <Input
+                    id="texte_bouton"
+                    value={formData.texte_bouton || ""}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, texte_bouton: e.target.value }))}
+                    placeholder="Texte affiché sur le bouton"
+                    className="text-xs sm:text-sm"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="lien_bouton" className="text-xs sm:text-sm">
+                    Lien du bouton
+                  </Label>
+                  <Input
+                    id="lien_bouton"
+                    value={formData.lien_bouton || ""}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, lien_bouton: e.target.value }))}
+                    placeholder="/#programmes ou /contact"
+                    className="text-xs sm:text-sm"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="image_background" className="text-xs sm:text-sm">
+                    Image de fond
+                  </Label>
+                  <ImageUpload
+                    value={formData.image_background || ""}
+                    onChange={handleImageChange}
+                    label="Télécharger une image de fond"
+                  />
+                </div>
+              </>
+            ) : (
+              <div className="py-8 text-center">
+                <p className="text-sm text-muted-foreground">Vous n'avez pas les permissions pour modifier cette section.</p>
               </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="titre" className="text-xs sm:text-sm">
-                Titre
-              </Label>
-              <Input
-                id="titre"
-                value={formData.titre || ""}
-                onChange={(e) => setFormData((prev) => ({ ...prev, titre: e.target.value }))}
-                placeholder="Titre de la section CTA"
-                className="text-xs sm:text-sm"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="description" className="text-xs sm:text-sm">
-                Description
-              </Label>
-              <Textarea
-                id="description"
-                value={formData.description || ""}
-                onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
-                placeholder="Description de la section CTA"
-                rows={4}
-                className="text-xs sm:text-sm"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="texte_bouton" className="text-xs sm:text-sm">
-                Texte du bouton
-              </Label>
-              <Input
-                id="texte_bouton"
-                value={formData.texte_bouton || ""}
-                onChange={(e) => setFormData((prev) => ({ ...prev, texte_bouton: e.target.value }))}
-                placeholder="Texte affiché sur le bouton"
-                className="text-xs sm:text-sm"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="lien_bouton" className="text-xs sm:text-sm">
-                Lien du bouton
-              </Label>
-              <Input
-                id="lien_bouton"
-                value={formData.lien_bouton || ""}
-                onChange={(e) => setFormData((prev) => ({ ...prev, lien_bouton: e.target.value }))}
-                placeholder="/#programmes ou /contact"
-                className="text-xs sm:text-sm"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="image_background" className="text-xs sm:text-sm">
-                Image de fond
-              </Label>
-              <ImageUpload
-                value={formData.image_background || ""}
-                onChange={handleImageChange}
-                label="Télécharger une image de fond"
-              />
-            </div>
+            )}
           </CardContent>
         </Card>
 

@@ -22,12 +22,14 @@ import { ExportButton } from "@/components/admin/export-button"
 import { AdminAuthNotice } from "@/components/admin/admin-auth-notice"
 import { getRegistrations } from "@/lib/storage/local-storage"
 import { useToast } from "@/hooks/use-toast"
+import { usePermissions } from "@/hooks/use-permissions"
 
 export default function AdminDashboardPage() {
   const [registrations, setRegistrations] = useState<Registration[]>([])
   const [programs, setPrograms] = useState<Program[]>([])
   const [loading, setLoading] = useState(true)
   const { toast } = useToast()
+  const { can } = usePermissions()
 
   useEffect(() => {
     loadRegistrations()
@@ -139,12 +141,14 @@ export default function AdminDashboardPage() {
               <CardDescription className="text-xs sm:text-sm">Filtrez et exportez les données d'inscription</CardDescription>
             </div>
             <div className="flex flex-wrap gap-2 sm:shrink-0">
-              <ExportButton registrations={registrations} />
-              <Button variant="destructive" onClick={() => setShowClearDialog(true)} size="sm" className="sm:size-default">
-                <Trash2 className="mr-2 h-4 w-4" />
-                <span className="hidden sm:inline">Vider les données</span>
-                <span className="sm:hidden">Vider</span>
-              </Button>
+              {can("export:inscriptions") && <ExportButton registrations={registrations} />}
+              {can("clear:inscriptions") && (
+                <Button variant="destructive" onClick={() => setShowClearDialog(true)} size="sm" className="sm:size-default">
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  <span className="hidden sm:inline">Vider les données</span>
+                  <span className="sm:hidden">Vider</span>
+                </Button>
+              )}
             </div>
           </div>
         </CardHeader>

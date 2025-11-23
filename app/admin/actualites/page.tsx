@@ -11,6 +11,7 @@ import { AddNewsDialog } from "@/components/admin/add-news-dialog"
 import { EditNewsDialog } from "@/components/admin/edit-news-dialog"
 import { DeleteNewsDialog } from "@/components/admin/delete-news-dialog"
 import { useToast } from "@/hooks/use-toast"
+import { usePermissions } from "@/hooks/use-permissions"
 
 export default function AdminActualitesPage() {
   const [news, setNews] = useState<News[]>([])
@@ -18,6 +19,7 @@ export default function AdminActualitesPage() {
   const [editingNews, setEditingNews] = useState<News | null>(null)
   const [deletingNews, setDeletingNews] = useState<News | null>(null)
   const { toast } = useToast()
+  const { can } = usePermissions()
 
   useEffect(() => {
     loadNews()
@@ -74,11 +76,13 @@ export default function AdminActualitesPage() {
             Gérez les actualités affichées sur la page d'accueil du site
           </p>
         </div>
-        <Button onClick={() => setShowAddDialog(true)} size="sm" className="w-full shrink-0 sm:w-auto sm:size-default">
-          <Plus className="mr-2 h-4 w-4" />
-          <span className="hidden sm:inline">Nouvelle actualité</span>
-          <span className="sm:hidden">Nouvelle</span>
-        </Button>
+        {can("create:actualites") && (
+          <Button onClick={() => setShowAddDialog(true)} size="sm" className="w-full shrink-0 sm:w-auto sm:size-default">
+            <Plus className="mr-2 h-4 w-4" />
+            <span className="hidden sm:inline">Nouvelle actualité</span>
+            <span className="sm:hidden">Nouvelle</span>
+          </Button>
+        )}
       </div>
 
       <div className="space-y-3 sm:space-y-4">
@@ -90,10 +94,12 @@ export default function AdminActualitesPage() {
               <p className="text-xs text-muted-foreground mb-4">
                 Commencez par créer votre première actualité.
               </p>
-              <Button onClick={() => setShowAddDialog(true)} size="sm">
-                <Plus className="mr-2 h-4 w-4" />
-                Créer une actualité
-              </Button>
+              {can("create:actualites") && (
+                <Button onClick={() => setShowAddDialog(true)} size="sm">
+                  <Plus className="mr-2 h-4 w-4" />
+                  Créer une actualité
+                </Button>
+              )}
             </CardContent>
           </Card>
         ) : (
@@ -114,53 +120,63 @@ export default function AdminActualitesPage() {
                     </CardDescription>
                   </div>
                   <div className="flex flex-wrap gap-1.5 sm:gap-2 shrink-0">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleMoveUp(item)}
-                      disabled={index === 0}
-                      title="Monter"
-                      className="h-8 w-8 p-0 sm:h-9 sm:w-9"
-                    >
-                      <ArrowUp className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleMoveDown(item)}
-                      disabled={index === news.length - 1}
-                      title="Descendre"
-                      className="h-8 w-8 p-0 sm:h-9 sm:w-9"
-                    >
-                      <ArrowDown className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleToggleActive(item)}
-                      title={item.actif ? "Désactiver" : "Activer"}
-                      className="h-8 w-8 p-0 sm:h-9 sm:w-9"
-                    >
-                      {item.actif ? <EyeOff className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> : <Eye className="h-3.5 w-3.5 sm:h-4 sm:w-4" />}
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setEditingNews(item)}
-                      title="Modifier"
-                      className="h-8 w-8 p-0 sm:h-9 sm:w-9"
-                    >
-                      <Pencil className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setDeletingNews(item)}
-                      className="h-8 w-8 p-0 text-destructive hover:bg-destructive hover:text-destructive-foreground sm:h-9 sm:w-9"
-                      title="Supprimer"
-                    >
-                      <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                    </Button>
+                    {can("reorder:actualites") && (
+                      <>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleMoveUp(item)}
+                          disabled={index === 0}
+                          title="Monter"
+                          className="h-8 w-8 p-0 sm:h-9 sm:w-9"
+                        >
+                          <ArrowUp className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleMoveDown(item)}
+                          disabled={index === news.length - 1}
+                          title="Descendre"
+                          className="h-8 w-8 p-0 sm:h-9 sm:w-9"
+                        >
+                          <ArrowDown className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                        </Button>
+                      </>
+                    )}
+                    {can("edit:actualites") && (
+                      <>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleToggleActive(item)}
+                          title={item.actif ? "Désactiver" : "Activer"}
+                          className="h-8 w-8 p-0 sm:h-9 sm:w-9"
+                        >
+                          {item.actif ? <EyeOff className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> : <Eye className="h-3.5 w-3.5 sm:h-4 sm:w-4" />}
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setEditingNews(item)}
+                          title="Modifier"
+                          className="h-8 w-8 p-0 sm:h-9 sm:w-9"
+                        >
+                          <Pencil className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                        </Button>
+                      </>
+                    )}
+                    {can("delete:actualites") && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setDeletingNews(item)}
+                        className="h-8 w-8 p-0 text-destructive hover:bg-destructive hover:text-destructive-foreground sm:h-9 sm:w-9"
+                        title="Supprimer"
+                      >
+                        <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                      </Button>
+                    )}
                   </div>
                 </div>
               </CardHeader>
