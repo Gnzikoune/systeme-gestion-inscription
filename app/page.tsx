@@ -100,7 +100,7 @@ export default function HomePage() {
         </section>
 
         {/* Stats Section */}
-        <section className="border-b border-border bg-muted/30 py-8 sm:py-12">
+        <section className="border-b border-border bg-muted/30 py-6 sm:py-8">
           <div className="container mx-auto px-4">
             {!mounted || stats.length === 0 ? (
               <div className="text-center py-8">
@@ -150,10 +150,10 @@ export default function HomePage() {
         </section>
 
         {/* About Section */}
-        <section id="a-propos" className="py-8 sm:py-12 md:py-16">
+        <section id="a-propos" className="py-6 sm:py-8 md:py-10">
           <div className="container mx-auto px-4">
             <div className="mx-auto max-w-4xl">
-              <div className="mb-6 sm:mb-8 md:mb-10 text-center">
+              <div className="mb-4 sm:mb-6 md:mb-8 text-center">
                 <h2 className="mb-2 sm:mb-3 text-balance text-xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-foreground">Notre Mission</h2>
                 <p className="text-pretty text-xs sm:text-sm md:text-sm lg:text-base text-muted-foreground leading-relaxed">
                   Le CSGR-IA est au cœur des initiatives de structuration, vulgarisation et promotion de la recherche en
@@ -215,9 +215,9 @@ export default function HomePage() {
         </section>
 
         {/* Programs Section */}
-        <section id="programmes" className="bg-muted/30 py-8 sm:py-12 md:py-16">
+        <section id="programmes" className="bg-muted/30 py-6 sm:py-8 md:py-10">
           <div className="container mx-auto px-4">
-            <div className="mb-6 sm:mb-8 md:mb-10 text-center">
+            <div className="mb-4 sm:mb-6 md:mb-8 text-center">
               <h2 className="mb-2 sm:mb-3 text-balance text-xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-foreground">
                 Nos Programmes de Formation
               </h2>
@@ -270,9 +270,9 @@ export default function HomePage() {
         </section>
 
         {/* Actualités Section */}
-        <section id="actualites" className="bg-gradient-to-br from-muted/30 to-muted/50 py-8 sm:py-12 md:py-16">
+        <section id="actualites" className="bg-gradient-to-br from-muted/30 to-muted/50 py-6 sm:py-8 md:py-10">
           <div className="container mx-auto px-4">
-            <div className="mb-6 sm:mb-8 md:mb-10 text-center">
+            <div className="mb-4 sm:mb-6 md:mb-8 text-center">
               <Badge className="mb-2 sm:mb-3 text-xs bg-primary/10 text-primary hover:bg-primary/20">Actualités & Événements</Badge>
               <h2 className="mb-2 sm:mb-3 text-balance text-xl sm:text-2xl md:text-2xl lg:text-2xl font-bold text-foreground">Actualités 2025</h2>
               <p className="text-pretty text-xs sm:text-sm md:text-sm lg:text-base text-muted-foreground leading-relaxed">
@@ -281,7 +281,7 @@ export default function HomePage() {
             </div>
 
             <Tabs defaultValue="recent" className="mx-auto max-w-6xl">
-              <TabsList className="grid w-full grid-cols-3 mb-6">
+              <TabsList className="grid w-full grid-cols-3 mb-4 sm:mb-6">
                 <TabsTrigger value="recent" className="flex items-center gap-2">
                   <Newspaper className="h-4 w-4" />
                   <span className="hidden sm:inline">Récentes</span>
